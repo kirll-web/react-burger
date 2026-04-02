@@ -1,3 +1,11 @@
+import type { PropsWithChildren } from 'react';
+
+export type DefaultPropsWithoutChildren = {
+  className?: string;
+};
+
+export type DefaultPropsWithChildren = PropsWithChildren<DefaultPropsWithoutChildren>;
+
 export type TIngredient = {
   _id: string;
   name: string;

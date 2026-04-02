@@ -1,0 +1,23 @@
+.wrapper {
+  display: grid;
+  grid-template-columns: 120px 1fr 1fr 24px;
+  align-items: center;
+  gap: 20px;
+  background-color: #1c1c21;
+  border: 2px solid #000;
+  border-radius: 40px;
+}
+
+.wrapper_top {
+  border-top-left-radius: 80px;
+  border-top-right-radius: 80px;
+}
+
+.wrapper_bottom {
+  border-bottom-right-radius: 80px;
+  border-bottom-left-radius: 80px;
+}
+
+.image {
+  max-width: 100%;
+}

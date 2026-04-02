@@ -11,8 +11,10 @@ import { ApiCode, CommonErrorType, ResponseType } from './types';
 
 import type { ApiResponse, ApiResponseError } from './types';
 
+const BASE_URL = 'https://new-stellarburgers.education-services.ru/api';
+
 const api = axios.create({
-  withCredentials: true,
+  baseURL: BASE_URL,
   headers: {
     'Content-Type': 'application/json',
   },

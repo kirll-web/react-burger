@@ -1,4 +1,8 @@
 import { Tab } from '@krgaa/react-developer-burger-ui-components';
+import clsx from 'clsx';
+import { useMemo, useState } from 'react';
+
+import { BurgerIngredientsContainer } from './burger-ingredients-container';
 
 import type { TIngredient } from '@utils/types';
 
@@ -11,41 +15,59 @@ type TBurgerIngredientsProps = {
 export const BurgerIngredients = ({
   ingredients,
 }: TBurgerIngredientsProps): React.JSX.Element => {
-  console.log(ingredients);
+  const [currentTab, setCurrentTab] = useState('bun');
+  const buns = useMemo(
+    () => ingredients.filter((item) => item.type === 'bun'),
+    [ingredients]
+  );
+  const mains = useMemo(
+    () => ingredients.filter((item) => item.type === 'main'),
+    [ingredients]
+  );
+  const sauces = useMemo(
+    () => ingredients.filter((item) => item.type === 'sauce'),
+    [ingredients]
+  );
 
   return (
     <section className={styles.burger_ingredients}>
       <nav>
-        <ul className={styles.menu}>
+        <ul className={styles.nav}>
           <Tab
             value="bun"
-            active={true}
+            active={currentTab === 'bun'}
             onClick={() => {
-              /* TODO */
+              setCurrentTab('bun');
             }}
           >
             Булки
           </Tab>
           <Tab
             value="main"
-            active={false}
+            active={currentTab === 'main'}
             onClick={() => {
-              /* TODO */
+              setCurrentTab('main');
             }}
           >
             Начинки
           </Tab>
           <Tab
             value="sauce"
-            active={false}
+            active={currentTab === 'sauce'}
             onClick={() => {
-              /* TODO */
+              setCurrentTab('sauce');
             }}
           >
             Соусы
           </Tab>
         </ul>
       </nav>
+      {/* Список всяких ингредиентов */}
+      <div className={clsx(styles.menu, 'mb-10 custom-scroll')}>
+        <BurgerIngredientsContainer ingredients={buns} title={'Булки'} />
+        <BurgerIngredientsContainer ingredients={mains} title={'Начинка'} />
+        <BurgerIngredientsContainer ingredients={sauces} title={'Соусы'} />
+      </div>
     </section>
   );
 };
