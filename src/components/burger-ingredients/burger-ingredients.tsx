@@ -2,9 +2,9 @@ import { Tab } from '@krgaa/react-developer-burger-ui-components';
 import { clsx } from 'clsx';
 import { useMemo, useState } from 'react';
 
+import { IngredientDetails } from '../ingredient-details/ingredient-details';
 import { Modal } from '../modal';
 import { BurgerIngredientsContainer } from './burger-ingredients-container';
-import { IngredientDetails } from './ingredient-details';
 
 import type { TIngredient } from '@utils/types';
 

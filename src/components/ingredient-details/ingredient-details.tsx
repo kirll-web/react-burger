@@ -1,6 +1,6 @@
 import { clsx } from 'clsx';
 
-import { IngredientNutrition } from './ingredient-nutrition';
+import { IngredientNutrition } from '../burger-ingredients/ingredient-nutrition';
 
 import type { TIngredient } from '@utils/types';
 

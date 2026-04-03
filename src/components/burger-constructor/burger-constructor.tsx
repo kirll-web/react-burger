@@ -3,9 +3,9 @@ import { clsx } from 'clsx';
 import { useState } from 'react';
 
 import { Modal } from '../modal';
+import { OrderDetails } from '../order-details/order-details';
 import { Price } from '../price';
 import { BurgerConstructorIngredientListItem } from './burger-constructor-ingredient-list-item';
-import { OrderDetails } from './order-details';
 
 import type { TIngredient } from '@utils/types';
 
