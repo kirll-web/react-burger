@@ -1,5 +1,5 @@
 import { CurrencyIcon } from '@krgaa/react-developer-burger-ui-components';
-import clsx from 'clsx';
+import { clsx } from 'clsx';
 
 import type { DefaultPropsWithoutChildren } from '@utils/types';
 
@@ -17,8 +17,3 @@ export const Price = ({ className, price }: PriceProps): React.JSX.Element => {
     </span>
   );
 };
-
-//TODO burget-ingredient возможно стоит назвать burger-ingredient-card,
-// TODO так как он отображает карточку ингредиента, а не просто ингредиент.
-// TODO И в дальнейшем  будет добавлено отображение ингредиента без карточки, например в конструкторе бургера.
-// TODO поэтому возможна проблема с колизией наименований и сложностью выбора наименования

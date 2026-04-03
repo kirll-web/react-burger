@@ -13,15 +13,6 @@
   overflow-y: auto;
 }
 
-.wrapper {
-  display: flex;
-  align-items: center;
-}
-
-.image {
-  max-width: 120px;
-}
-
 .ingredients {
   display: flex;
   flex-direction: column;

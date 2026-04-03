@@ -1,8 +1,11 @@
 import { Button } from '@krgaa/react-developer-burger-ui-components';
-import clsx from 'clsx';
+import { clsx } from 'clsx';
+import { useState } from 'react';
 
+import { Modal } from '../modal';
 import { Price } from '../price';
 import { BurgerConstructorIngredientListItem } from './burger-constructor-ingredient-list-item';
+import { OrderDetails } from './order-details';
 
 import type { TIngredient } from '@utils/types';
 
@@ -18,6 +21,11 @@ export const BurgerConstructor = ({
   const [bunTop, ...ingredientsWithBunBottom] = ingredients;
   const bunBottom = ingredientsWithBunBottom[ingredientsWithBunBottom.length - 1];
   const mainIngredients = ingredientsWithBunBottom.slice(0, -1);
+  const [showModal, setShowModal] = useState(false);
+
+  const handleClick = (): void => {
+    setShowModal((prev) => !prev);
+  };
 
   return (
     <section className={clsx(styles.burger_constructor, 'pl-4 pr-4 pt-1')}>
@@ -47,10 +55,15 @@ export const BurgerConstructor = ({
       </div>
       <footer className={clsx(styles.footer, 'mt-10')}>
         <Price price={50} className="text_type_digits-medium" />
-        <Button size="large" type="primary" htmlType={'button'}>
+        <Button onClick={handleClick} size="large" type="primary" htmlType={'button'}>
           Оформить заказ
         </Button>
       </footer>
+      {showModal && (
+        <Modal onClose={() => setShowModal(false)}>
+          <OrderDetails />
+        </Modal>
+      )}
     </section>
   );
 };

@@ -1,8 +1,10 @@
 import { Tab } from '@krgaa/react-developer-burger-ui-components';
-import clsx from 'clsx';
+import { clsx } from 'clsx';
 import { useMemo, useState } from 'react';
 
+import { Modal } from '../modal';
 import { BurgerIngredientsContainer } from './burger-ingredients-container';
+import { IngredientDetails } from './ingredient-details';
 
 import type { TIngredient } from '@utils/types';
 
@@ -16,6 +18,9 @@ export const BurgerIngredients = ({
   ingredients,
 }: TBurgerIngredientsProps): React.JSX.Element => {
   const [currentTab, setCurrentTab] = useState('bun');
+  const [selectedIngredient, setSelectedIngredient] = useState<TIngredient | undefined>(
+    undefined
+  );
   const buns = useMemo(
     () => ingredients.filter((item) => item.type === 'bun'),
     [ingredients]
@@ -28,6 +33,10 @@ export const BurgerIngredients = ({
     () => ingredients.filter((item) => item.type === 'sauce'),
     [ingredients]
   );
+
+  const handleCloseModal = (): void => {
+    setSelectedIngredient(undefined);
+  };
 
   return (
     <section className={styles.burger_ingredients}>
@@ -62,12 +71,28 @@ export const BurgerIngredients = ({
           </Tab>
         </ul>
       </nav>
-      {/* Список всяких ингредиентов */}
       <div className={clsx(styles.menu, 'mb-10 custom-scroll')}>
-        <BurgerIngredientsContainer ingredients={buns} title={'Булки'} />
-        <BurgerIngredientsContainer ingredients={mains} title={'Начинка'} />
-        <BurgerIngredientsContainer ingredients={sauces} title={'Соусы'} />
+        <BurgerIngredientsContainer
+          ingredients={buns}
+          title={'Булки'}
+          onClickIngredient={setSelectedIngredient}
+        />
+        <BurgerIngredientsContainer
+          ingredients={mains}
+          title={'Начинка'}
+          onClickIngredient={setSelectedIngredient}
+        />
+        <BurgerIngredientsContainer
+          ingredients={sauces}
+          title={'Соусы'}
+          onClickIngredient={setSelectedIngredient}
+        />
       </div>
+      {selectedIngredient && (
+        <Modal onClose={handleCloseModal}>
+          <IngredientDetails ingredient={selectedIngredient} />
+        </Modal>
+      )}
     </section>
   );
 };
