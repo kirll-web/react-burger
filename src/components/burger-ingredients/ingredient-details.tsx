@@ -16,7 +16,11 @@ export const IngredientDetails = ({
   return (
     <section className={clsx(styles.container, 'text  text_type_main-default')}>
       <h1 className={styles.title}>Детали ингредиента</h1>
-      <img className={clsx(styles.image, 'mb-2')} src={ingredient.image} />
+      <img
+        className={clsx(styles.image, 'mb-2')}
+        src={ingredient.image}
+        alt={ingredient.name}
+      />
       <h2 className="mb-8">{ingredient.name}</h2>
       <ul
         className={clsx(

@@ -17,13 +17,13 @@ export const useIngredients = (): TUseIngredientsResult => {
 
     const loadIngredients = async (): Promise<void> => {
       const data = await getIngredients();
+      setLoading(false);
 
       if (isCancelled) {
         return;
       }
 
       setIngredients(data);
-      setLoading(false);
     };
 
     void loadIngredients();

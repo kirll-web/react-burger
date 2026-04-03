@@ -18,10 +18,21 @@ type TBurgerConstructorProps = {
 export const BurgerConstructor = ({
   ingredients,
 }: TBurgerConstructorProps): React.JSX.Element => {
+  const [showModal, setShowModal] = useState(false);
+
+  if (ingredients.length === 0) {
+    return (
+      <section className={clsx(styles.burger_constructor, 'pl-4 pr-4 pt-1')}>
+        <div className={'text text_type_main-default text_color_inactive'}>
+          Добавьте ингредиенты для вашего бургера
+        </div>
+      </section>
+    );
+  }
+
   const [bunTop, ...ingredientsWithBunBottom] = ingredients;
   const bunBottom = ingredientsWithBunBottom[ingredientsWithBunBottom.length - 1];
   const mainIngredients = ingredientsWithBunBottom.slice(0, -1);
-  const [showModal, setShowModal] = useState(false);
 
   const handleClick = (): void => {
     setShowModal((prev) => !prev);
