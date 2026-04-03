@@ -1,6 +1,6 @@
+import { useModal } from '@/hooks/useModal';
 import { Button } from '@krgaa/react-developer-burger-ui-components';
 import { clsx } from 'clsx';
-import { useState } from 'react';
 
 import { Modal } from '../modal';
 import { OrderDetails } from '../order-details/order-details';
@@ -18,7 +18,7 @@ type TBurgerConstructorProps = {
 export const BurgerConstructor = ({
   ingredients,
 }: TBurgerConstructorProps): React.JSX.Element => {
-  const [showModal, setShowModal] = useState(false);
+  const { openModal, isModalOpen, closeModal } = useModal();
 
   if (ingredients.length === 0) {
     return (
@@ -30,20 +30,15 @@ export const BurgerConstructor = ({
     );
   }
 
-  const [bunTop, ...ingredientsWithBunBottom] = ingredients;
-  const bunBottom = ingredientsWithBunBottom[ingredientsWithBunBottom.length - 1];
+  const [bun, ...ingredientsWithBunBottom] = ingredients;
   const mainIngredients = ingredientsWithBunBottom.slice(0, -1);
-
-  const handleClick = (): void => {
-    setShowModal((prev) => !prev);
-  };
 
   return (
     <section className={clsx(styles.burger_constructor, 'pl-4 pr-4 pt-1')}>
       <div className={styles.ingredients}>
         <BurgerConstructorIngredientListItem
           className="mr-5"
-          ingredient={bunTop}
+          ingredient={bun}
           isLocked={true}
           type="top"
         />
@@ -59,19 +54,19 @@ export const BurgerConstructor = ({
         </ul>
         <BurgerConstructorIngredientListItem
           className="mr-5"
-          ingredient={bunBottom}
+          ingredient={bun}
           isLocked={true}
           type="bottom"
         />
       </div>
       <footer className={clsx(styles.footer, 'mt-10')}>
         <Price price={50} className="text_type_digits-medium" />
-        <Button onClick={handleClick} size="large" type="primary" htmlType={'button'}>
+        <Button onClick={openModal} size="large" type="primary" htmlType={'button'}>
           Оформить заказ
         </Button>
       </footer>
-      {showModal && (
-        <Modal onClose={() => setShowModal(false)}>
+      {isModalOpen && (
+        <Modal onClose={closeModal}>
           <OrderDetails />
         </Modal>
       )}

@@ -14,19 +14,32 @@ type TBurgerConstructorIngredientProps = DefaultPropsWithoutChildren & {
   type?: 'top' | 'bottom';
 };
 
+const getName = (name: string, type?: 'top' | 'bottom'): string => {
+  switch (type) {
+    case 'top':
+      return `${name} (верх)`;
+    case 'bottom':
+      return `${name} (низ)`;
+    default:
+      return name;
+  }
+};
+
 export const BurgerConstructorIngredientListItem = ({
   className,
   ingredient,
   isLocked,
   type,
 }: TBurgerConstructorIngredientProps): React.JSX.Element => {
+  const name = getName(ingredient.name, type);
+
   return (
     <li className={clsx(styles.wrapper, className)}>
       {!isLocked && <DragIcon type="primary" className={styles.drag} />}
       <ConstructorElement
         isLocked={isLocked}
         type={type}
-        text={ingredient.name}
+        text={name}
         thumbnail={ingredient.image}
         price={ingredient.price}
         extraClass={clsx({
