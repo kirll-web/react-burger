@@ -1,6 +1,7 @@
-import { useModal } from '@/hooks/useModal';
 import { Button } from '@krgaa/react-developer-burger-ui-components';
 import { clsx } from 'clsx';
+
+import { useModal } from '@hooks/useModal';
 
 import { Modal } from '../modal';
 import { OrderDetails } from '../order-details/order-details';

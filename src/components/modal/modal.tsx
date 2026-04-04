@@ -5,7 +5,7 @@ import { createPortal } from 'react-dom';
 
 import { ModalOverlay } from './modal-overlay';
 
-import type { DefaultPropsWithChildren } from '@/utils/types';
+import type { DefaultPropsWithChildren } from '@utils/types';
 
 import styles from './modal.module.css';
 

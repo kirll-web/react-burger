@@ -1,6 +1,6 @@
-import { Api, type ApiResponse } from '@/utils/request';
+import { Api, type ApiResponse } from '@utils/request';
 
-import type { TIngredient } from '@/utils/types';
+import type { TIngredient } from '@utils/types';
 
 type TIngredientsResponse = {
   data: TIngredient[];

@@ -1,5 +1,6 @@
-import { getIngredients } from '@/services/getIngredients';
 import { useEffect, useState } from 'react';
+
+import { getIngredients } from '@services/getIngredients';
 
 import type { TIngredient } from '@utils/types';
 
