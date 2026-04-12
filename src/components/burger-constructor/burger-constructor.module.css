@@ -1,7 +1,28 @@
 .burger_constructor {
   display: flex;
   flex-direction: column;
-  width: 600px;
   padding-bottom: 20px;
   color: var(--text-primary-color);
+}
+
+.ingredients_main {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 100%;
+  overflow-y: auto;
+}
+
+.ingredients {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  max-height: 60vh;
+}
+
+.footer {
+  display: flex;
+  justify-content: end;
+  align-items: center;
+  gap: 40px;
 }

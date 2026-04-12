@@ -6,10 +6,17 @@
   font-family: 'Jet Brains Mono', serif;
 }
 
-.menu {
+.nav {
   display: flex;
   margin: 0;
   padding: 0;
   text-align: center;
   list-style-type: none;
+}
+
+.menu {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  overflow-y: auto;
 }
