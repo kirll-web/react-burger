@@ -4,13 +4,14 @@ import { clsx } from 'clsx';
 import { Price } from '../price';
 
 import type { TIngredient } from '@utils/types';
-import type { ReactElement } from 'react';
+import type { ReactElement, RefObject } from 'react';
 
 import styles from './burger-ingredients-container.module.css';
 
 type TBurgerIngredientsProps = {
   ingredients: TIngredient[];
   title: string;
+  ref?: RefObject<HTMLElement | null>;
 
   onClickIngredient: (ingredient: TIngredient) => void;
 };
@@ -18,6 +19,7 @@ type TBurgerIngredientsProps = {
 export const BurgerIngredientsContainer = ({
   ingredients,
   title,
+  ref,
 
   onClickIngredient,
 }: TBurgerIngredientsProps): ReactElement => {
@@ -26,7 +28,7 @@ export const BurgerIngredientsContainer = ({
   };
 
   return (
-    <article className={styles.ingredients}>
+    <article className={styles.ingredients} ref={ref}>
       <h2 className={styles.ingredients__title}>{title}</h2>
       <ul className={clsx(styles.ingredients__container, 'pl-1 pr-1')}>
         {ingredients.map((ingredient) => (

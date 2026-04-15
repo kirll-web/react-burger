@@ -5,6 +5,7 @@ import { useMemo, useState } from 'react';
 import { IngredientDetails } from '../ingredient-details/ingredient-details';
 import { Modal } from '../modal';
 import { BurgerIngredientsContainer } from './burger-ingredients-container';
+import { useIngredientsTabs } from './use-ingredients-tabs';
 
 import type { TIngredient } from '@utils/types';
 
@@ -17,10 +18,18 @@ type TBurgerIngredientsProps = {
 export const BurgerIngredients = ({
   ingredients,
 }: TBurgerIngredientsProps): React.JSX.Element => {
-  const [currentTab, setCurrentTab] = useState('bun');
   const [selectedIngredient, setSelectedIngredient] = useState<TIngredient | undefined>(
     undefined
   );
+  const {
+    currentTab,
+    setCurrentTab,
+    bunsContainerRef,
+    mainContainerRef,
+    sauceContainerRef,
+    handleScroll,
+  } = useIngredientsTabs();
+
   const buns = useMemo(
     () => ingredients.filter((item) => item.type === 'bun'),
     [ingredients]
@@ -71,20 +80,23 @@ export const BurgerIngredients = ({
           </Tab>
         </ul>
       </nav>
-      <div className={clsx(styles.menu, 'mb-10 custom-scroll')}>
+      <div className={clsx(styles.menu, 'mb-10 custom-scroll')} onScroll={handleScroll}>
         <BurgerIngredientsContainer
           ingredients={buns}
           title={'Булки'}
+          ref={bunsContainerRef}
           onClickIngredient={setSelectedIngredient}
         />
         <BurgerIngredientsContainer
           ingredients={mains}
           title={'Начинка'}
+          ref={mainContainerRef}
           onClickIngredient={setSelectedIngredient}
         />
         <BurgerIngredientsContainer
           ingredients={sauces}
           title={'Соусы'}
+          ref={sauceContainerRef}
           onClickIngredient={setSelectedIngredient}
         />
       </div>
