@@ -1,12 +1,12 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
+import { BASE_URL } from './consts';
+
 import type { TIngredient } from '@utils/types';
 
 type TIngredientsResponse = {
   data: TIngredient[];
 };
-
-const BASE_URL = 'https://new-stellarburgers.education-services.ru/api';
 
 export const ingredientsApi = createApi({
   reducerPath: 'ingredientsApi',
