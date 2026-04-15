@@ -1,6 +1,13 @@
 import { Tab } from '@krgaa/react-developer-burger-ui-components';
 import { clsx } from 'clsx';
-import { useMemo, useState } from 'react';
+import { useMemo } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+
+import {
+  getSelectedIngredient,
+  selectIngredient,
+  unselectIngredient,
+} from '@services/slices/ingredient-modal-slice';
 
 import { IngredientDetails } from '../ingredient-details/ingredient-details';
 import { Modal } from '../modal';
@@ -18,9 +25,8 @@ type TBurgerIngredientsProps = {
 export const BurgerIngredients = ({
   ingredients,
 }: TBurgerIngredientsProps): React.JSX.Element => {
-  const [selectedIngredient, setSelectedIngredient] = useState<TIngredient | undefined>(
-    undefined
-  );
+  const dispatch = useDispatch();
+  const selectedIngredient = useSelector(getSelectedIngredient);
   const {
     currentTab,
     setCurrentTab,
@@ -44,7 +50,11 @@ export const BurgerIngredients = ({
   );
 
   const handleCloseModal = (): void => {
-    setSelectedIngredient(undefined);
+    dispatch(unselectIngredient());
+  };
+
+  const handleClickIngredient = (ingredient: TIngredient): void => {
+    dispatch(selectIngredient(ingredient));
   };
 
   return (
@@ -85,19 +95,19 @@ export const BurgerIngredients = ({
           ingredients={buns}
           title={'Булки'}
           ref={bunsContainerRef}
-          onClickIngredient={setSelectedIngredient}
+          onClickIngredient={handleClickIngredient}
         />
         <BurgerIngredientsContainer
           ingredients={mains}
           title={'Начинка'}
           ref={mainContainerRef}
-          onClickIngredient={setSelectedIngredient}
+          onClickIngredient={handleClickIngredient}
         />
         <BurgerIngredientsContainer
           ingredients={sauces}
           title={'Соусы'}
           ref={sauceContainerRef}
-          onClickIngredient={setSelectedIngredient}
+          onClickIngredient={handleClickIngredient}
         />
       </div>
       {selectedIngredient && (
