@@ -13,17 +13,3 @@
 .ingredients__title {
   width: 100%;
 }
-
-.ingredient {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  width: 100%;
-  max-width: 50%;
-  cursor: pointer;
-}
-
-.name {
-  text-align: center;
-}

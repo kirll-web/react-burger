@@ -3,6 +3,7 @@ import { configureStore } from '@reduxjs/toolkit';
 import { ingredientsApi } from '@services/ingredientsApi';
 
 import { ordersApi } from './ordersApi';
+import { constructorSlice } from './slices/constructor-slice';
 import {
   selectedIngredientReducer,
   selectedIngredientSlice,
@@ -13,6 +14,7 @@ export const store = configureStore({
     [ingredientsApi.reducerPath]: ingredientsApi.reducer,
     [ordersApi.reducerPath]: ordersApi.reducer,
     [selectedIngredientSlice.reducerPath]: selectedIngredientReducer,
+    [constructorSlice.reducerPath]: constructorSlice.reducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware()
