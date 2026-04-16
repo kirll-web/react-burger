@@ -14,7 +14,7 @@ import type { TIngredient } from '@utils/types';
 import styles from './app.module.css';
 
 export const App = (): React.JSX.Element => {
-  const { data: ingredients = [], isLoading } = useGetIngredientsQuery();
+  const { isLoading } = useGetIngredientsQuery();
   const dispatch = useDispatch();
 
   const handleDrop = (item: TIngredient): void => {
@@ -33,7 +33,7 @@ export const App = (): React.JSX.Element => {
             <Preloader />
           ) : (
             <>
-              <BurgerIngredients ingredients={ingredients} />
+              <BurgerIngredients />
               <BurgerConstructor onDropHandler={handleDrop} />
             </>
           )}

@@ -1,6 +1,5 @@
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
 
-import type { RootState } from '@services/store';
 import type { TIngredient } from '@utils/types';
 type SelectedIngredientState = {
   selectedIngredient: TIngredient | undefined;
@@ -26,9 +25,12 @@ export const selectedIngredientSlice = createSlice({
       state.selectedIngredient = undefined;
     },
   },
+  selectors: {
+    getSelectedIngredient: (state) => state.selectedIngredient,
+  },
 });
 
 export const selectedIngredientReducer = selectedIngredientSlice.reducer;
 export const { selectIngredient, unselectIngredient } = selectedIngredientSlice.actions;
-export const getSelectedIngredient = (state: RootState): TIngredient | undefined =>
-  state.selectedIngredient.selectedIngredient;
+export const getSelectedIngredient =
+  selectedIngredientSlice.selectors.getSelectedIngredient;

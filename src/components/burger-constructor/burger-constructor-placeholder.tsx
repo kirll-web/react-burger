@@ -10,6 +10,9 @@ type TBurgerConstructorPlaceholderProps = {
   text: string;
 };
 
+const transparentPixel =
+  'data:image/;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==';
+
 export const BurgerConstructorPlaceholder = ({
   type,
   text,
@@ -19,7 +22,7 @@ export const BurgerConstructorPlaceholder = ({
       <ConstructorElement
         isLocked={true}
         type={type}
-        thumbnail=""
+        thumbnail={transparentPixel}
         price={0}
         text={text}
         extraClass={clsx('ml-8', styles.element)}

@@ -72,18 +72,38 @@ export const constructorSlice = createSlice({
       state.ingredients.splice(toIndex, 0, movedIngredient);
     },
   },
+  selectors: {
+    getConstructorIngredients: (state) => state.ingredients,
+    getConstructorBun: (state) => state.bun,
+    getPrice: createSelector(
+      [
+        (state: TConstructorState): TConstuctorIngredient[] => state.ingredients,
+        (state: TConstructorState): TIngredient | undefined => state.bun,
+      ],
+      (ingredients, bun) => {
+        const bunPrice = bun ? bun.price * 2 : 0;
+        const ingredientsPrice = ingredients.reduce(
+          (acc, ingredient) => acc + ingredient.ingredient.price,
+          0
+        );
+        return bunPrice + ingredientsPrice;
+      }
+    ),
+  },
 });
 
 export const constructorReducer = constructorSlice.reducer;
+
 export const {
   selectIngredient: selectConsturctorIngredient,
   unselectIngredient: unselectConsturctorIngredient,
   moveIngredient: moveConsturctorIngredient,
 } = constructorSlice.actions;
-export const getConstructorIngredients = (state: RootState): TConstuctorIngredient[] =>
-  state.constructorSlice.ingredients;
-export const getConstructorBun = (state: RootState): TIngredient | undefined =>
-  state.constructorSlice.bun;
+
+export const getConstructorIngredients =
+  constructorSlice.selectors.getConstructorIngredients;
+
+export const getConstructorBun = constructorSlice.selectors.getConstructorBun;
 
 export const makeGetIngredientCounter = (): ((
   state: RootState,
@@ -107,15 +127,4 @@ export const makeGetIngredientCounter = (): ((
     }
   );
 
-export const getPrice = createSelector(
-  [(state: RootState): TConstructorState => state.constructorSlice],
-  ({ ingredients, bun }): number => {
-    const bunPrice = bun ? bun.price * 2 : 0;
-    const ingredientsPrice = ingredients.reduce(
-      (acc, ingredient) => acc + ingredient.ingredient.price,
-      0
-    );
-
-    return bunPrice + ingredientsPrice;
-  }
-);
+export const getPrice = constructorSlice.selectors.getPrice;

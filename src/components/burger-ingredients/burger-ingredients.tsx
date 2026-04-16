@@ -3,6 +3,7 @@ import { clsx } from 'clsx';
 import { useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
+import { useGetIngredientsQuery } from '@services/ingredientsApi';
 import {
   getSelectedIngredient,
   selectIngredient,
@@ -18,13 +19,9 @@ import type { TIngredient } from '@utils/types';
 
 import styles from './burger-ingredients.module.css';
 
-type TBurgerIngredientsProps = {
-  ingredients: TIngredient[];
-};
+export const BurgerIngredients = (): React.JSX.Element => {
+  const { data: ingredients = [] } = useGetIngredientsQuery();
 
-export const BurgerIngredients = ({
-  ingredients,
-}: TBurgerIngredientsProps): React.JSX.Element => {
   const dispatch = useDispatch();
   const selectedIngredient = useSelector(getSelectedIngredient);
   const {
