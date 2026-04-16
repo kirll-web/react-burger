@@ -8,6 +8,7 @@ import { useModal } from '@hooks/useModal';
 import { useOrderMutation } from '@services/ordersApi';
 
 import {
+  clearConstructor,
   getConstructorBun,
   getConstructorIngredients,
   getPrice,
@@ -74,6 +75,14 @@ export const BurgerConstructor = ({
     dispatch(moveConsturctorIngredient({ fromIndex, toIndex }));
   };
 
+  const handleCloseOrderModal = (): void => {
+    closeModal();
+
+    if (data?.success) {
+      dispatch(clearConstructor());
+    }
+  };
+
   return (
     <section className={clsx(styles.burger_constructor, 'pl-4 pr-4 pt-1')}>
       <div
@@ -112,7 +121,7 @@ export const BurgerConstructor = ({
         )}
       </footer>
       {isModalOpen && !isLoading && (
-        <Modal onClose={closeModal}>
+        <Modal onClose={handleCloseOrderModal}>
           {data?.success ? (
             <OrderDetails orderNumber={data.order.number} />
           ) : (

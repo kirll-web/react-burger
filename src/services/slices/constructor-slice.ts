@@ -41,6 +41,11 @@ export const constructorSlice = createSlice({
         state.nextIndex += 1;
       }
     },
+    clearConstructor: (state) => {
+      state.bun = undefined;
+      state.ingredients = [];
+      state.nextIndex = 1;
+    },
     unselectIngredient: (state, action: PayloadAction<TConstuctorIngredient>) => {
       const ingredient = action.payload;
       state.ingredients = state.ingredients.filter(
@@ -95,6 +100,7 @@ export const constructorSlice = createSlice({
 export const constructorReducer = constructorSlice.reducer;
 
 export const {
+  clearConstructor,
   selectIngredient: selectConsturctorIngredient,
   unselectIngredient: unselectConsturctorIngredient,
   moveIngredient: moveConsturctorIngredient,
