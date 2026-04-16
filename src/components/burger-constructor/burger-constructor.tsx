@@ -105,9 +105,11 @@ export const BurgerConstructor = ({
       </div>
       <footer className={clsx(styles.footer, 'mt-10')}>
         <Price price={price} className="text_type_digits-medium" />
-        <Button onClick={handleClick} size="large" type="primary" htmlType={'button'}>
-          {isLoading ? 'Оформляем заказ...' : 'Оформить заказ'}
-        </Button>
+        {bun && ingredients.length > 0 && (
+          <Button onClick={handleClick} size="large" type="primary" htmlType={'button'}>
+            {isLoading ? 'Оформляем заказ...' : 'Оформить заказ'}
+          </Button>
+        )}
       </footer>
       {isModalOpen && !isLoading && (
         <Modal onClose={closeModal}>
