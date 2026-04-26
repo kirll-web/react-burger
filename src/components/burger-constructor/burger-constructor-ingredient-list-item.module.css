@@ -7,3 +7,7 @@
 .drag {
   cursor: pointer;
 }
+
+.dragging {
+  opacity: 0.5;
+}

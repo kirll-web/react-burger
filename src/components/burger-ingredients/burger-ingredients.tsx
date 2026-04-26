@@ -1,26 +1,38 @@
 import { Tab } from '@krgaa/react-developer-burger-ui-components';
 import { clsx } from 'clsx';
-import { useMemo, useState } from 'react';
+import { useMemo } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+
+import { useGetIngredientsQuery } from '@services/ingredientsApi';
+import {
+  getSelectedIngredient,
+  selectIngredient,
+  unselectIngredient,
+} from '@services/slices/ingredient-modal-slice';
 
 import { IngredientDetails } from '../ingredient-details/ingredient-details';
 import { Modal } from '../modal';
 import { BurgerIngredientsContainer } from './burger-ingredients-container';
+import { useIngredientsTabs } from './use-ingredients-tabs';
 
 import type { TIngredient } from '@utils/types';
 
 import styles from './burger-ingredients.module.css';
 
-type TBurgerIngredientsProps = {
-  ingredients: TIngredient[];
-};
+export const BurgerIngredients = (): React.JSX.Element => {
+  const { data: ingredients = [] } = useGetIngredientsQuery();
 
-export const BurgerIngredients = ({
-  ingredients,
-}: TBurgerIngredientsProps): React.JSX.Element => {
-  const [currentTab, setCurrentTab] = useState('bun');
-  const [selectedIngredient, setSelectedIngredient] = useState<TIngredient | undefined>(
-    undefined
-  );
+  const dispatch = useDispatch();
+  const selectedIngredient = useSelector(getSelectedIngredient);
+  const {
+    currentTab,
+    setCurrentTab,
+    bunsContainerRef,
+    mainContainerRef,
+    sauceContainerRef,
+    handleScroll,
+  } = useIngredientsTabs();
+
   const buns = useMemo(
     () => ingredients.filter((item) => item.type === 'bun'),
     [ingredients]
@@ -35,7 +47,11 @@ export const BurgerIngredients = ({
   );
 
   const handleCloseModal = (): void => {
-    setSelectedIngredient(undefined);
+    dispatch(unselectIngredient());
+  };
+
+  const handleClickIngredient = (ingredient: TIngredient): void => {
+    dispatch(selectIngredient(ingredient));
   };
 
   return (
@@ -71,21 +87,24 @@ export const BurgerIngredients = ({
           </Tab>
         </ul>
       </nav>
-      <div className={clsx(styles.menu, 'mb-10 custom-scroll')}>
+      <div className={clsx(styles.menu, 'mb-10 custom-scroll')} onScroll={handleScroll}>
         <BurgerIngredientsContainer
           ingredients={buns}
           title={'Булки'}
-          onClickIngredient={setSelectedIngredient}
+          ref={bunsContainerRef}
+          onClickIngredient={handleClickIngredient}
         />
         <BurgerIngredientsContainer
           ingredients={mains}
           title={'Начинка'}
-          onClickIngredient={setSelectedIngredient}
+          ref={mainContainerRef}
+          onClickIngredient={handleClickIngredient}
         />
         <BurgerIngredientsContainer
           ingredients={sauces}
           title={'Соусы'}
-          onClickIngredient={setSelectedIngredient}
+          ref={sauceContainerRef}
+          onClickIngredient={handleClickIngredient}
         />
       </div>
       {selectedIngredient && (
