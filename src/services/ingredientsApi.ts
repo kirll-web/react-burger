@@ -22,3 +22,11 @@ export const ingredientsApi = createApi({
 });
 
 export const { useGetIngredientsQuery } = ingredientsApi;
+
+export const useGetIngredientByIdQuery = (id?: string) =>
+  useGetIngredientsQuery(undefined, {
+    selectFromResult: ({ data, ...result }) => ({
+      ...result,
+      ingredient: data?.find((ingredient) => ingredient._id === id),
+    }),
+  });
