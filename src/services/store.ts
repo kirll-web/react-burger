@@ -4,16 +4,11 @@ import { ingredientsApi } from '@services/ingredientsApi';
 
 import { ordersApi } from './ordersApi';
 import { constructorSlice } from './slices/constructor-slice';
-import {
-  selectedIngredientReducer,
-  selectedIngredientSlice,
-} from './slices/ingredient-modal-slice';
 
 export const store = configureStore({
   reducer: {
     [ingredientsApi.reducerPath]: ingredientsApi.reducer,
     [ordersApi.reducerPath]: ordersApi.reducer,
-    [selectedIngredientSlice.reducerPath]: selectedIngredientReducer,
     [constructorSlice.reducerPath]: constructorSlice.reducer,
   },
   middleware: (getDefaultMiddleware) =>

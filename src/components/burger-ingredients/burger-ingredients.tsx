@@ -1,17 +1,10 @@
 import { Tab } from '@krgaa/react-developer-burger-ui-components';
 import { clsx } from 'clsx';
 import { useMemo } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { Outlet, useNavigate } from 'react-router-dom';
 
 import { useGetIngredientsQuery } from '@services/ingredientsApi';
-import {
-  getSelectedIngredient,
-  selectIngredient,
-  unselectIngredient,
-} from '@services/slices/ingredient-modal-slice';
 
-import { IngredientDetails } from '../ingredient-details/ingredient-details';
-import { Modal } from '../modal';
 import { BurgerIngredientsContainer } from './burger-ingredients-container';
 import { useIngredientsTabs } from './use-ingredients-tabs';
 
@@ -22,8 +15,6 @@ import styles from './burger-ingredients.module.css';
 export const BurgerIngredients = (): React.JSX.Element => {
   const { data: ingredients = [] } = useGetIngredientsQuery();
 
-  const dispatch = useDispatch();
-  const selectedIngredient = useSelector(getSelectedIngredient);
   const {
     currentTab,
     setCurrentTab,
@@ -32,7 +23,7 @@ export const BurgerIngredients = (): React.JSX.Element => {
     sauceContainerRef,
     handleScroll,
   } = useIngredientsTabs();
-
+  const navigate = useNavigate();
   const buns = useMemo(
     () => ingredients.filter((item) => item.type === 'bun'),
     [ingredients]
@@ -46,12 +37,8 @@ export const BurgerIngredients = (): React.JSX.Element => {
     [ingredients]
   );
 
-  const handleCloseModal = (): void => {
-    dispatch(unselectIngredient());
-  };
-
   const handleClickIngredient = (ingredient: TIngredient): void => {
-    dispatch(selectIngredient(ingredient));
+    void navigate(`/ingredients/${ingredient._id}`);
   };
 
   return (
@@ -107,11 +94,7 @@ export const BurgerIngredients = (): React.JSX.Element => {
           onClickIngredient={handleClickIngredient}
         />
       </div>
-      {selectedIngredient && (
-        <Modal onClose={handleCloseModal}>
-          <IngredientDetails ingredient={selectedIngredient} />
-        </Modal>
-      )}
+      <Outlet />
     </section>
   );
 };

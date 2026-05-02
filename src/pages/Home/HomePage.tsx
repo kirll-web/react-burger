@@ -3,7 +3,6 @@ import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import { useDispatch } from 'react-redux';
 
-import { AppHeader } from '@components/app-header/app-header';
 import { BurgerConstructor } from '@components/burger-constructor';
 import { BurgerIngredients } from '@components/burger-ingredients';
 import { useGetIngredientsQuery } from '@services/ingredientsApi';
@@ -21,8 +20,7 @@ export const HomePage = (): React.JSX.Element => {
   };
 
   return (
-    <div className={styles.app}>
-      <AppHeader />
+    <>
       <h1 className={`${styles.title} text text_type_main-large mt-10 mb-5 pl-5`}>
         Соберите бургер
       </h1>
@@ -38,6 +36,6 @@ export const HomePage = (): React.JSX.Element => {
           )}
         </DndProvider>
       </main>
-    </div>
+    </>
   );
 };
