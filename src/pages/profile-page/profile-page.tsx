@@ -1,12 +1,15 @@
 import { clsx } from 'clsx';
 import { NavLink, Outlet } from 'react-router-dom';
 
+import { useLogout } from '@hooks/use-logout';
+
 import type { ReactElement } from 'react';
 
 import styles from './profile-page.module.css';
 
 export const ProfilePage = (): ReactElement => {
-  console.log(styles);
+  const { handleLogout } = useLogout();
+
   return (
     <main className={styles.main}>
       <section className={styles.layout}>
@@ -40,7 +43,10 @@ export const ProfilePage = (): ReactElement => {
                 )}
               </NavLink>
             </li>
-            <li className={clsx('text text_type_main-medium text_color_inactive')}>
+            <li
+              className={clsx('text text_type_main-medium text_color_inactive')}
+              onClick={handleLogout}
+            >
               Выход
             </li>
           </ul>

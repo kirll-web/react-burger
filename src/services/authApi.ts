@@ -1,7 +1,7 @@
 import { createApi } from '@reduxjs/toolkit/query/react';
 
 import { baseQueryWithReauth } from './baseQueryWithReauth';
-import { setTokens } from './token';
+import { clearTokens, setTokens } from './token';
 
 type TRegisterRequest = {
   email: string;
@@ -25,6 +25,15 @@ type TRegisterResponse = {
 };
 
 type TLoginResponse = TRegisterResponse;
+
+type TLogoutRequest = {
+  token: string;
+};
+
+type TLogoutResponse = {
+  success: boolean;
+  message: string;
+};
 
 export const authApi = createApi({
   reducerPath: 'authApi',
@@ -52,7 +61,18 @@ export const authApi = createApi({
         setTokens(data.accessToken, data.refreshToken);
       },
     }),
+    logout: builder.mutation<TLogoutResponse, TLogoutRequest>({
+      query: (body) => ({
+        url: '/auth/logout',
+        method: 'POST',
+        body,
+      }),
+      async onQueryStarted(_, { queryFulfilled }) {
+        await queryFulfilled;
+        clearTokens();
+      },
+    }),
   }),
 });
 
-export const { useLoginMutation, useRegisterMutation } = authApi;
+export const { useLoginMutation, useRegisterMutation, useLogoutMutation } = authApi;
