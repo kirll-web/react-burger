@@ -4,7 +4,7 @@ import { useEffect } from 'react';
 import { useDrop } from 'react-dnd';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { useModal } from '@hooks/useModal';
+import { useModal } from '@hooks/use-modal';
 import { useOrderMutation } from '@services/ordersApi';
 
 import {

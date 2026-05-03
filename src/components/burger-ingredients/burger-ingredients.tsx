@@ -3,6 +3,7 @@ import { clsx } from 'clsx';
 import { useMemo } from 'react';
 import { Outlet, useNavigate } from 'react-router-dom';
 
+import { RoutePath } from '@components/app/router';
 import { useGetIngredientsQuery } from '@services/ingredientsApi';
 
 import { BurgerIngredientsContainer } from './burger-ingredients-container';
@@ -38,7 +39,7 @@ export const BurgerIngredients = (): React.JSX.Element => {
   );
 
   const handleClickIngredient = (ingredient: TIngredient): void => {
-    void navigate(`/ingredients/${ingredient._id}`);
+    void navigate(`${RoutePath.Ingredients}/${ingredient._id}`);
   };
 
   return (

@@ -1,6 +1,4 @@
-import type { Config } from 'stylelint';
-
-const config: Config = {
+const config = {
   extends: ['stylelint-config-standard', 'stylelint-config-css-modules'],
   ignoreFiles: ['**/fonts/', '**/images/'],
   plugins: ['stylelint-order'],
