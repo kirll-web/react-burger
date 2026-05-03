@@ -35,6 +35,25 @@ type TLogoutResponse = {
   message: string;
 };
 
+type TForgotPasswordRequest = {
+  email: string;
+};
+
+type TForgotPasswordResponse = {
+  success: boolean;
+  message: string;
+};
+
+type TResetPasswordRequest = {
+  password: string;
+  token: string;
+};
+
+type TResetPasswordResponse = {
+  success: boolean;
+  message: string;
+};
+
 export const authApi = createApi({
   reducerPath: 'authApi',
   baseQuery: baseQueryWithReauth,
@@ -72,7 +91,27 @@ export const authApi = createApi({
         clearTokens();
       },
     }),
+    forgotPassword: builder.mutation<TForgotPasswordResponse, TForgotPasswordRequest>({
+      query: (body) => ({
+        url: '/password-reset',
+        method: 'POST',
+        body,
+      }),
+    }),
+    resetPassword: builder.mutation<TResetPasswordResponse, TResetPasswordRequest>({
+      query: (body) => ({
+        url: '/password-reset/reset',
+        method: 'POST',
+        body,
+      }),
+    }),
   }),
 });
 
-export const { useLoginMutation, useRegisterMutation, useLogoutMutation } = authApi;
+export const {
+  useForgotPasswordMutation,
+  useLoginMutation,
+  useLogoutMutation,
+  useRegisterMutation,
+  useResetPasswordMutation,
+} = authApi;
