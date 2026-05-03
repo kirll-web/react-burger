@@ -2,6 +2,7 @@ import { createBrowserRouter } from 'react-router-dom';
 
 import { Layout } from '@components/layout';
 import { ModalIngredients } from '@components/modal-ingredients';
+import { ProtectedRoute } from '@components/protected-route';
 import { FeedPage } from '@pages/feed-page';
 import { ForgotPasswordPage } from '@pages/forgot-password-page';
 import { HomePage } from '@pages/home';
@@ -13,17 +14,7 @@ import { ProfilePage } from '@pages/profile-page';
 import { RegisterPage } from '@pages/register-page';
 import { ResetPasswordPage } from '@pages/reset-password-page';
 
-export const enum RoutePath {
-  Home = '/',
-  Ingredients = '/ingredients',
-  Login = '/login',
-  Register = '/register',
-  ForgotPassword = '/forgot-password',
-  ResetPassword = '/reset-password',
-  Profile = '/profile',
-  Feed = '/feed',
-  ProfileOrders = '/profile/orders',
-}
+import { RoutePath } from './route-paths';
 
 export const router = createBrowserRouter([
   {
@@ -39,23 +30,43 @@ export const router = createBrowserRouter([
       },
       {
         path: RoutePath.Login,
-        Component: LoginPage,
+        element: (
+          <ProtectedRoute onlyUnAuth>
+            <LoginPage />
+          </ProtectedRoute>
+        ),
       },
       {
         path: RoutePath.Register,
-        Component: RegisterPage,
+        element: (
+          <ProtectedRoute onlyUnAuth>
+            <RegisterPage />
+          </ProtectedRoute>
+        ),
       },
       {
         path: RoutePath.ForgotPassword,
-        Component: ForgotPasswordPage,
+        element: (
+          <ProtectedRoute onlyUnAuth>
+            <ForgotPasswordPage />
+          </ProtectedRoute>
+        ),
       },
       {
         path: RoutePath.ResetPassword,
-        Component: ResetPasswordPage,
+        element: (
+          <ProtectedRoute onlyUnAuth>
+            <ResetPasswordPage />
+          </ProtectedRoute>
+        ),
       },
       {
         path: RoutePath.Profile,
-        Component: ProfilePage,
+        element: (
+          <ProtectedRoute>
+            <ProfilePage />
+          </ProtectedRoute>
+        ),
         children: [
           {
             index: true,

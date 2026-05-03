@@ -1,6 +1,7 @@
 import { createApi } from '@reduxjs/toolkit/query/react';
 
 import { baseQueryWithReauth } from './baseQueryWithReauth';
+import { clearUser, setUser } from './slices/auth-slice';
 import { clearTokens, setTokens } from './token';
 
 type TRegisterRequest = {
@@ -16,15 +17,28 @@ type TLoginRequest = {
 
 type TRegisterResponse = {
   success: boolean;
-  user: {
-    email: string;
-    name: string;
-  };
+  user: TUser;
   accessToken: string;
   refreshToken: string;
 };
 
 type TLoginResponse = TRegisterResponse;
+
+type TGetUserResponse = {
+  success: boolean;
+  user: TUser;
+};
+
+type TUpdateUserRequest = {
+  name: string;
+  email: string;
+  password: string;
+};
+
+type TUpdateUserResponse = {
+  success: boolean;
+  user: TUser;
+};
 
 type TLogoutRequest = {
   token: string;
@@ -54,6 +68,11 @@ type TResetPasswordResponse = {
   message: string;
 };
 
+export type TUser = {
+  email: string;
+  name: string;
+};
+
 export const authApi = createApi({
   reducerPath: 'authApi',
   baseQuery: baseQueryWithReauth,
@@ -64,9 +83,10 @@ export const authApi = createApi({
         method: 'POST',
         body,
       }),
-      async onQueryStarted(_, { queryFulfilled }) {
+      async onQueryStarted(_, { dispatch, queryFulfilled }) {
         const { data } = await queryFulfilled;
         setTokens(data.accessToken, data.refreshToken);
+        dispatch(setUser(data.user));
       },
     }),
     login: builder.mutation<TLoginResponse, TLoginRequest>({
@@ -75,9 +95,10 @@ export const authApi = createApi({
         method: 'POST',
         body,
       }),
-      async onQueryStarted(_, { queryFulfilled }) {
+      async onQueryStarted(_, { dispatch, queryFulfilled }) {
         const { data } = await queryFulfilled;
         setTokens(data.accessToken, data.refreshToken);
+        dispatch(setUser(data.user));
       },
     }),
     logout: builder.mutation<TLogoutResponse, TLogoutRequest>({
@@ -86,9 +107,27 @@ export const authApi = createApi({
         method: 'POST',
         body,
       }),
-      async onQueryStarted(_, { queryFulfilled }) {
+      async onQueryStarted(_, { dispatch, queryFulfilled }) {
         await queryFulfilled;
         clearTokens();
+        dispatch(clearUser());
+      },
+    }),
+    getUser: builder.query<TGetUserResponse, void>({
+      query: () => ({
+        url: '/auth/user',
+        method: 'GET',
+      }),
+    }),
+    updateUser: builder.mutation<TUpdateUserResponse, TUpdateUserRequest>({
+      query: (body) => ({
+        url: '/auth/user',
+        method: 'PATCH',
+        body,
+      }),
+      async onQueryStarted(_, { dispatch, queryFulfilled }) {
+        const { data } = await queryFulfilled;
+        dispatch(setUser(data.user));
       },
     }),
     forgotPassword: builder.mutation<TForgotPasswordResponse, TForgotPasswordRequest>({
@@ -110,8 +149,10 @@ export const authApi = createApi({
 
 export const {
   useForgotPasswordMutation,
+  useGetUserQuery,
   useLoginMutation,
   useLogoutMutation,
   useRegisterMutation,
   useResetPasswordMutation,
+  useUpdateUserMutation,
 } = authApi;

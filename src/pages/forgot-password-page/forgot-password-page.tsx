@@ -1,7 +1,7 @@
 import { Input } from '@krgaa/react-developer-burger-ui-components';
 import { useNavigate } from 'react-router-dom';
 
-import { RoutePath } from '@components/app/router/routes';
+import { RoutePath } from '@components/app/router';
 import { Form } from '@components/form';
 import { useFieldState } from '@hooks/use-field-state';
 import { useForgotPasswordMutation } from '@services/authApi';

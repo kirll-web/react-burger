@@ -1,24 +1,69 @@
-import { Input } from '@krgaa/react-developer-burger-ui-components';
+import { Button, Input } from '@krgaa/react-developer-burger-ui-components';
+import { useEffect } from 'react';
+import { useSelector } from 'react-redux';
 
 import { useFieldState } from '@hooks/use-field-state';
+import { useUpdateUserMutation } from '@services/authApi';
+import { getUser } from '@services/slices/auth-slice';
 
-import type { ReactElement } from 'react';
+import type { RootState } from '@services/store';
+import type { FormEvent, ReactElement } from 'react';
 
 import styles from './profile-main-page.module.css';
 
 export const ProfileMainPage = (): ReactElement => {
-  const { value: name, handleChange: handleChangeName } = useFieldState('Марк');
-  const { value: email, handleChange: handleEmailChange } =
-    useFieldState('mail@stellar.burgers');
+  const user = useSelector((state: RootState) => getUser(state));
+  const [updateUser, { isLoading }] = useUpdateUserMutation();
+
+  const { value: name, handleChange: handleChangeName } = useFieldState();
+  const { value: email, handleChange: handleEmailChange } = useFieldState();
   const {
     value: password,
     handleChange: handleChangePassword,
     showValue: showPassword,
     toggleShowValue: togglePassword,
-  } = useFieldState('password');
+  } = useFieldState();
+
+  useEffect(() => {
+    handleChangeName(user?.name ?? '');
+    handleEmailChange(user?.email ?? '');
+    handleChangePassword('');
+  }, [
+    handleChangeEmail,
+    handleChangeName,
+    handleChangePassword,
+    user?.email,
+    user?.name,
+  ]);
+
+  const isDirty =
+    name !== (user?.name ?? '') || email !== (user?.email ?? '') || password !== '';
+
+  const handleCancel = (): void => {
+    handleChangeName(user?.name ?? '');
+    handleEmailChange(user?.email ?? '');
+    handleChangePassword('');
+  };
+
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>): Promise<void> => {
+    event.preventDefault();
+
+    await updateUser({
+      name,
+      email,
+      password,
+    }).unwrap();
+
+    handleChangePassword('');
+  };
 
   return (
-    <section className={styles.containter}>
+    <form
+      className={styles.containter}
+      onSubmit={(event) => {
+        void handleSubmit(event);
+      }}
+    >
       <Input
         name="name"
         placeholder="Имя"
@@ -38,15 +83,30 @@ export const ProfileMainPage = (): ReactElement => {
         icon="EditIcon"
       />
       <Input
-        name="email"
+        name="password"
         placeholder="Пароль"
         size="default"
         onIconClick={togglePassword}
         onChange={handleChangePassword}
         type={showPassword ? 'text' : 'password'}
-        icon="EditIcon"
+        icon={showPassword ? 'HideIcon' : 'ShowIcon'}
         value={password}
       />
-    </section>
+      {isDirty && (
+        <div className={styles.actions}>
+          <Button
+            onClick={handleCancel}
+            htmlType={'button'}
+            type="secondary"
+            size="medium"
+          >
+            Отмена
+          </Button>
+          <Button disabled={isLoading} htmlType={'submit'} type="primary" size="medium">
+            Сохранить
+          </Button>
+        </div>
+      )}
+    </form>
   );
 };

@@ -1,5 +1,7 @@
 import { Input } from '@krgaa/react-developer-burger-ui-components';
+import { useLocation, useNavigate } from 'react-router-dom';
 
+import { getRouteFromState } from '@components/app/router/get-route-from-state';
 import { Form } from '@components/form';
 import { useFieldState } from '@hooks/use-field-state';
 import { useLoginMutation } from '@services/authApi';
@@ -8,6 +10,8 @@ import type { FormEvent, ReactElement } from 'react';
 
 import styles from './login-page.module.css';
 export const LoginPage = (): ReactElement => {
+  const navigate = useNavigate();
+  const location = useLocation();
   const [login, { isLoading }] = useLoginMutation();
 
   const { value: email, handleChange: handleChangeEmail } = useFieldState();
@@ -18,9 +22,11 @@ export const LoginPage = (): ReactElement => {
     toggleShowValue: togglePassword,
   } = useFieldState();
 
-  const handleSubmit = (e: FormEvent<HTMLFormElement>): void => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>): Promise<void> => {
     e.preventDefault();
-    void login({ email, password });
+
+    await login({ email, password }).unwrap();
+    void navigate(getRouteFromState(location.state), { replace: true });
   };
 
   return (
@@ -51,7 +57,9 @@ export const LoginPage = (): ReactElement => {
         ]}
         submitButtonText={'Войти'}
         buttonDisabled={isLoading}
-        onSubmit={handleSubmit}
+        onSubmit={(event) => {
+          void handleSubmit(event);
+        }}
       />
     </main>
   );

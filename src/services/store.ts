@@ -4,11 +4,13 @@ import { authApi } from '@services/authApi';
 import { ingredientsApi } from '@services/ingredientsApi';
 
 import { ordersApi } from './ordersApi';
+import { authSlice } from './slices/auth-slice';
 import { constructorSlice } from './slices/constructor-slice';
 
 export const store = configureStore({
   reducer: {
     [authApi.reducerPath]: authApi.reducer,
+    [authSlice.name]: authSlice.reducer,
     [ingredientsApi.reducerPath]: ingredientsApi.reducer,
     [ordersApi.reducerPath]: ordersApi.reducer,
     [constructorSlice.reducerPath]: constructorSlice.reducer,
