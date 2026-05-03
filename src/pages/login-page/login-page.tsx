@@ -2,11 +2,14 @@ import { Input } from '@krgaa/react-developer-burger-ui-components';
 
 import { Form } from '@components/form';
 import { useFieldState } from '@hooks/use-field-state';
+import { useLoginMutation } from '@services/authApi';
 
 import type { FormEvent, ReactElement } from 'react';
 
 import styles from './login-page.module.css';
 export const LoginPage = (): ReactElement => {
+  const [login, { isLoading }] = useLoginMutation();
+
   const { value: email, handleChange: handleChangeEmail } = useFieldState();
   const {
     value: password,
@@ -17,6 +20,7 @@ export const LoginPage = (): ReactElement => {
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>): void => {
     e.preventDefault();
+    void login({ email, password });
   };
 
   return (
@@ -46,6 +50,7 @@ export const LoginPage = (): ReactElement => {
           />,
         ]}
         submitButtonText={'Войти'}
+        buttonDisabled={isLoading}
         onSubmit={handleSubmit}
       />
     </main>

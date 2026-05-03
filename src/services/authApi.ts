@@ -1,11 +1,17 @@
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+import { createApi } from '@reduxjs/toolkit/query/react';
 
-import { BASE_URL } from './consts';
+import { baseQueryWithReauth } from './baseQueryWithReauth';
+import { setTokens } from './token';
 
 type TRegisterRequest = {
   email: string;
   password: string;
   name: string;
+};
+
+type TLoginRequest = {
+  email: string;
+  password: string;
 };
 
 type TRegisterResponse = {
@@ -18,11 +24,11 @@ type TRegisterResponse = {
   refreshToken: string;
 };
 
+type TLoginResponse = TRegisterResponse;
+
 export const authApi = createApi({
   reducerPath: 'authApi',
-  baseQuery: fetchBaseQuery({
-    baseUrl: BASE_URL,
-  }),
+  baseQuery: baseQueryWithReauth,
   endpoints: (builder) => ({
     register: builder.mutation<TRegisterResponse, TRegisterRequest>({
       query: (body) => ({
@@ -30,8 +36,23 @@ export const authApi = createApi({
         method: 'POST',
         body,
       }),
+      async onQueryStarted(_, { queryFulfilled }) {
+        const { data } = await queryFulfilled;
+        setTokens(data.accessToken, data.refreshToken);
+      },
+    }),
+    login: builder.mutation<TLoginResponse, TLoginRequest>({
+      query: (body) => ({
+        url: '/auth/login',
+        method: 'POST',
+        body,
+      }),
+      async onQueryStarted(_, { queryFulfilled }) {
+        const { data } = await queryFulfilled;
+        setTokens(data.accessToken, data.refreshToken);
+      },
     }),
   }),
 });
 
-export const { useRegisterMutation } = authApi;
+export const { useLoginMutation, useRegisterMutation } = authApi;
