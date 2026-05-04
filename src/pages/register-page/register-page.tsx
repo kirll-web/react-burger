@@ -1,5 +1,7 @@
 import { Input } from '@krgaa/react-developer-burger-ui-components';
+import { Link } from 'react-router-dom';
 
+import { RoutePath } from '@components/app/router';
 import { Form } from '@components/form';
 import { useFieldState } from '@hooks/use-field-state';
 import { useRegisterMutation } from '@services/authApi';
@@ -67,6 +69,11 @@ export const RegisterPage = (): ReactElement => {
         submitButtonText={'Зарегистрироваться'}
         buttonDisabled={isLoading}
         onSubmit={handleSubmit}
+        links={
+          <span>
+            Уже зарегистрированы?<Link to={RoutePath.Login}>Войти</Link>
+          </span>
+        }
       />
     </main>
   );

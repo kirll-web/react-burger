@@ -1,6 +1,6 @@
 import { Input } from '@krgaa/react-developer-burger-ui-components';
 import { useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 import { RoutePath } from '@components/app/router';
 import { Form } from '@components/form';
@@ -72,6 +72,12 @@ export const ResetPasswordPage = (): ReactElement => {
         onSubmit={(event) => {
           void handleSubmit(event);
         }}
+        links={
+          <span>
+            Вспомнили пароль?
+            <Link to={RoutePath.Login}>Войти</Link>
+          </span>
+        }
       />
     </main>
   );

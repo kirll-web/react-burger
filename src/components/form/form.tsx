@@ -1,13 +1,14 @@
 import { Button } from '@krgaa/react-developer-burger-ui-components';
 
-import type { FormEvent } from 'react';
+import type { FormEvent, ReactElement, ReactNode } from 'react';
 
 import styles from './form.module.css';
 type TFormProps = {
   title: string;
-  inputs: React.JSX.Element[];
+  inputs: ReactElement[];
   submitButtonText: string;
   buttonDisabled?: boolean;
+  links?: ReactNode;
 
   onSubmit?: (e: FormEvent<HTMLFormElement>) => void;
 };
@@ -17,6 +18,7 @@ export const Form = ({
   inputs,
   submitButtonText,
   buttonDisabled,
+  links,
 
   onSubmit,
 }: TFormProps): React.JSX.Element => {
@@ -27,6 +29,7 @@ export const Form = ({
       <Button disabled={buttonDisabled} size="large" type="primary" htmlType={'submit'}>
         {submitButtonText}
       </Button>
+      {links}
     </form>
   );
 };

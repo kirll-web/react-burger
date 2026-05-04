@@ -1,6 +1,7 @@
 import { Input } from '@krgaa/react-developer-burger-ui-components';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 
+import { RoutePath } from '@components/app/router';
 import { getRouteFromState } from '@components/app/router/get-route-from-state';
 import { Form } from '@components/form';
 import { useFieldState } from '@hooks/use-field-state';
@@ -60,6 +61,18 @@ export const LoginPage = (): ReactElement => {
         onSubmit={(event) => {
           void handleSubmit(event);
         }}
+        links={
+          <>
+            <span>
+              Вы - новый пользователь?
+              <Link to={RoutePath.Login}>Зарегистрироваться</Link>
+            </span>
+            <span>
+              Забыли пароль?
+              <Link to={RoutePath.ForgotPassword}>Восстановить пароль</Link>
+            </span>
+          </>
+        }
       />
     </main>
   );

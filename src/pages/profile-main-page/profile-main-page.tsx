@@ -29,7 +29,7 @@ export const ProfileMainPage = (): ReactElement => {
     handleEmailChange(user?.email ?? '');
     handleChangePassword('');
   }, [
-    handleChangeEmail,
+    handleEmailChange,
     handleChangeName,
     handleChangePassword,
     user?.email,
