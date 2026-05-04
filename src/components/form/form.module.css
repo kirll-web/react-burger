@@ -4,3 +4,10 @@
   align-items: center;
   gap: 20px;
 }
+
+.links {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  text-align: center;
+}

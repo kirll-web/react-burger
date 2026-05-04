@@ -3,9 +3,12 @@ import { clsx } from 'clsx';
 import { useEffect } from 'react';
 import { useDrop } from 'react-dnd';
 import { useDispatch, useSelector } from 'react-redux';
+import { useLocation, useNavigate } from 'react-router-dom';
 
+import { RoutePath } from '@components/app/router';
 import { useModal } from '@hooks/use-modal';
 import { useOrderMutation } from '@services/ordersApi';
+import { getUser } from '@services/slices/auth-slice';
 
 import {
   clearConstructor,
@@ -33,8 +36,11 @@ export const BurgerConstructor = ({
   onDropHandler,
 }: TBurgerConstructorProps): React.JSX.Element => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const location = useLocation();
   const ingredients = useSelector(getConstructorIngredients);
   const bun = useSelector(getConstructorBun);
+  const user = useSelector(getUser);
 
   const { openModal, isModalOpen, closeModal } = useModal();
 
@@ -46,6 +52,12 @@ export const BurgerConstructor = ({
     }
 
     if (!bun || ingredients.length === 0) {
+      return;
+    }
+
+    if (!user) {
+      void navigate(RoutePath.Login, { state: { from: location } });
+
       return;
     }
 

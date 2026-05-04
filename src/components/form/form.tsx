@@ -1,4 +1,5 @@
 import { Button } from '@krgaa/react-developer-burger-ui-components';
+import { clsx } from 'clsx';
 
 import type { FormEvent, ReactElement, ReactNode } from 'react';
 
@@ -29,7 +30,14 @@ export const Form = ({
       <Button disabled={buttonDisabled} size="large" type="primary" htmlType={'submit'}>
         {submitButtonText}
       </Button>
-      {links}
+      <div
+        className={clsx(
+          'text text_type_main-default  text_color_inactive mt-20',
+          styles.links
+        )}
+      >
+        {links}
+      </div>
     </form>
   );
 };

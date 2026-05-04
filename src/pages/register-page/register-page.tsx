@@ -1,7 +1,8 @@
 import { Input } from '@krgaa/react-developer-burger-ui-components';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 
 import { RoutePath } from '@components/app/router';
+import { getRouteFromState } from '@components/app/router/get-route-from-state';
 import { Form } from '@components/form';
 import { useFieldState } from '@hooks/use-field-state';
 import { useRegisterMutation } from '@services/authApi';
@@ -11,6 +12,7 @@ import type { ReactElement } from 'react';
 import styles from './register-page.module.css';
 
 export const RegisterPage = (): ReactElement => {
+  const location = useLocation();
   const [register, { isLoading }] = useRegisterMutation();
 
   const { value: name, handleChange: handleChangeName } = useFieldState();
@@ -71,7 +73,13 @@ export const RegisterPage = (): ReactElement => {
         onSubmit={handleSubmit}
         links={
           <span>
-            Уже зарегистрированы?<Link to={RoutePath.Login}>Войти</Link>
+            Уже зарегистрированы?{' '}
+            <Link
+              to={RoutePath.Login}
+              state={{ from: { pathname: getRouteFromState(location.state) } }}
+            >
+              Войти
+            </Link>
           </span>
         }
       />

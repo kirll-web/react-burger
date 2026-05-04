@@ -46,8 +46,7 @@ export const ForgotPasswordPage = (): ReactElement => {
         }}
         links={
           <span>
-            Вспомнили пароль?
-            <Link to={RoutePath.Login}>Войти</Link>
+            Вспомнили пароль? <Link to={RoutePath.Login}>Войти</Link>
           </span>
         }
       />

@@ -64,11 +64,16 @@ export const LoginPage = (): ReactElement => {
         links={
           <>
             <span>
-              Вы - новый пользователь?
-              <Link to={RoutePath.Login}>Зарегистрироваться</Link>
+              Вы - новый пользователь?{' '}
+              <Link
+                to={RoutePath.Register}
+                state={{ from: { pathname: getRouteFromState(location.state) } }}
+              >
+                Зарегистрироваться
+              </Link>
             </span>
             <span>
-              Забыли пароль?
+              Забыли пароль{' '}
               <Link to={RoutePath.ForgotPassword}>Восстановить пароль</Link>
             </span>
           </>
