@@ -1,15 +1,13 @@
 import { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
 import { RouterProvider } from 'react-router-dom';
 
 import { checkUserAuth } from '@services/checkUserAuth';
+import { useAppDispatch } from '@services/store';
 
 import { router } from './router';
 
-import type { AppDispatch } from '@services/store';
-
 export const App = (): React.JSX.Element => {
-  const dispatch = useDispatch<AppDispatch>();
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
     void dispatch(checkUserAuth());

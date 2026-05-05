@@ -6,6 +6,8 @@ import {
 } from '@krgaa/react-developer-burger-ui-components';
 import { NavLink } from 'react-router-dom';
 
+import { RoutePath } from '@components/app/router';
+
 import type { ReactNode } from 'react';
 
 import styles from './app-header.module.css';
@@ -32,7 +34,7 @@ export const AppHeader = (): React.JSX.Element => {
     <header className={styles.header}>
       <nav className={`${styles.menu} p-4`}>
         <div className={styles.menu_part_left}>
-          <NavLink to="/" className={styles.link}>
+          <NavLink to={RoutePath.Home} className={styles.link}>
             {({ isActive }) => (
               <AppHeaderLink
                 icon={<BurgerIcon type={isActive ? 'primary' : 'secondary'} />}
@@ -41,8 +43,7 @@ export const AppHeader = (): React.JSX.Element => {
               />
             )}
           </NavLink>
-
-          <NavLink to="/feed" className={`${styles.link} ml-10`}>
+          <NavLink to={RoutePath.Feed} className={`${styles.link} ml-10`}>
             {({ isActive }) => (
               <AppHeaderLink
                 icon={<ListIcon type={isActive ? 'primary' : 'secondary'} />}
@@ -52,10 +53,15 @@ export const AppHeader = (): React.JSX.Element => {
             )}
           </NavLink>
         </div>
-        <div className={styles.logo}>
-          <Logo />
-        </div>
-        <NavLink to="/profile" className={`${styles.link} ${styles.link_position_last}`}>
+        <NavLink to={RoutePath.Home}>
+          <div className={styles.logo}>
+            <Logo />
+          </div>
+        </NavLink>
+        <NavLink
+          to={RoutePath.Profile}
+          className={`${styles.link} ${styles.link_position_last}`}
+        >
           {({ isActive }) => (
             <AppHeaderLink
               icon={<ProfileIcon type={isActive ? 'primary' : 'secondary'} />}

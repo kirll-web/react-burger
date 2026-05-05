@@ -1,19 +1,19 @@
 import { Preloader } from '@krgaa/react-developer-burger-ui-components';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
-import { useDispatch } from 'react-redux';
 
 import { BurgerConstructor } from '@components/burger-constructor';
 import { BurgerIngredients } from '@components/burger-ingredients';
 import { useGetIngredientsQuery } from '@services/ingredientsApi';
 import { selectConsturctorIngredient } from '@services/slices/constructor-slice';
+import { useAppDispatch } from '@services/store';
 
 import type { TIngredient } from '@utils/types';
 
 import styles from './home.module.css';
 export const HomePage = (): React.JSX.Element => {
   const { isLoading } = useGetIngredientsQuery();
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const handleDrop = (item: TIngredient): void => {
     dispatch(selectConsturctorIngredient(item));

@@ -1,18 +1,17 @@
 import { Button, Input } from '@krgaa/react-developer-burger-ui-components';
 import { useEffect } from 'react';
-import { useSelector } from 'react-redux';
 
 import { useFieldState } from '@hooks/use-field-state';
 import { useUpdateUserMutation } from '@services/authApi';
 import { getUser } from '@services/slices/auth-slice';
+import { useAppSelector } from '@services/store';
 
-import type { RootState } from '@services/store';
 import type { FormEvent, ReactElement } from 'react';
 
 import styles from './profile-main-page.module.css';
 
 export const ProfileMainPage = (): ReactElement => {
-  const user = useSelector((state: RootState) => getUser(state));
+  const user = useAppSelector((state) => getUser(state));
   const [updateUser, { isLoading }] = useUpdateUserMutation();
 
   const { value: name, handleChange: handleChangeName } = useFieldState();

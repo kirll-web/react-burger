@@ -14,11 +14,7 @@ export const ModalIngredients = () => {
   }
 
   const handleCloseModal = (): void => {
-    if (window.history.length > 1) {
-      void navigate(-1);
-    } else {
-      void navigate('/');
-    }
+    void navigate('/');
   };
   return (
     <Modal onClose={handleCloseModal}>

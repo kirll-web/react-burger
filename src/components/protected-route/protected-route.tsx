@@ -1,11 +1,10 @@
-import { useSelector } from 'react-redux';
 import { Navigate, useLocation } from 'react-router-dom';
 
 import { RoutePath } from '@components/app/router';
 import { getRouteFromState } from '@components/app/router/get-route-from-state';
 import { getIsAuthChecked, getUser } from '@services/slices/auth-slice';
+import { useAppSelector } from '@services/store';
 
-import type { RootState } from '@services/store';
 import type { ReactElement } from 'react';
 
 type TProtectedRouteProps = {
@@ -18,8 +17,8 @@ export const ProtectedRoute = ({
   onlyUnAuth = false,
 }: TProtectedRouteProps): ReactElement | null => {
   const location = useLocation();
-  const isAuthChecked = useSelector((state: RootState) => getIsAuthChecked(state));
-  const user = useSelector((state: RootState) => getUser(state));
+  const isAuthChecked = useAppSelector((state) => getIsAuthChecked(state));
+  const user = useAppSelector((state) => getUser(state));
 
   if (!isAuthChecked) {
     return null;

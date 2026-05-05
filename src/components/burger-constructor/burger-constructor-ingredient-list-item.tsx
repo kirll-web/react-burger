@@ -5,12 +5,12 @@ import {
 import { clsx } from 'clsx';
 import { useRef } from 'react';
 import { useDrag, useDrop } from 'react-dnd';
-import { useDispatch } from 'react-redux';
 
 import {
   unselectConsturctorIngredient,
   type TConstuctorIngredient,
 } from '@services/slices/constructor-slice';
+import { useAppDispatch } from '@services/store';
 
 import type { DefaultPropsWithoutChildren, TIngredient } from '@utils/types';
 
@@ -60,7 +60,7 @@ export const BurgerConstructorIngredientListItem = ({
     ? ingredient.ingredient
     : ingredient;
   const name = getName(selectedIngredient.name, type);
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const canSort =
     !isLocked &&
     isConstuctorIngredient(ingredient) &&
