@@ -2,10 +2,13 @@ import { Button } from '@krgaa/react-developer-burger-ui-components';
 import { clsx } from 'clsx';
 import { useEffect } from 'react';
 import { useDrop } from 'react-dnd';
-import { useDispatch, useSelector } from 'react-redux';
+import { useLocation, useNavigate } from 'react-router-dom';
 
-import { useModal } from '@hooks/useModal';
+import { RoutePath } from '@components/app/router';
+import { useModal } from '@hooks/use-modal';
 import { useOrderMutation } from '@services/ordersApi';
+import { getUser } from '@services/slices/auth-slice';
+import { useAppDispatch, useAppSelector } from '@services/store';
 
 import {
   clearConstructor,
@@ -32,9 +35,12 @@ type TBurgerConstructorProps = {
 export const BurgerConstructor = ({
   onDropHandler,
 }: TBurgerConstructorProps): React.JSX.Element => {
-  const dispatch = useDispatch();
-  const ingredients = useSelector(getConstructorIngredients);
-  const bun = useSelector(getConstructorBun);
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+  const location = useLocation();
+  const ingredients = useAppSelector(getConstructorIngredients);
+  const bun = useAppSelector(getConstructorBun);
+  const user = useAppSelector(getUser);
 
   const { openModal, isModalOpen, closeModal } = useModal();
 
@@ -46,6 +52,12 @@ export const BurgerConstructor = ({
     }
 
     if (!bun || ingredients.length === 0) {
+      return;
+    }
+
+    if (!user) {
+      void navigate(RoutePath.Login, { state: { from: location } });
+
       return;
     }
 
@@ -69,7 +81,7 @@ export const BurgerConstructor = ({
     },
   });
 
-  const price = useSelector(getPrice);
+  const price = useAppSelector(getPrice);
 
   const handleMoveIngredient = (fromIndex: number, toIndex: number): void => {
     dispatch(moveConsturctorIngredient({ fromIndex, toIndex }));

@@ -2,13 +2,12 @@ import { Counter } from '@krgaa/react-developer-burger-ui-components';
 import { clsx } from 'clsx';
 import { useMemo, type ReactElement } from 'react';
 import { useDrag } from 'react-dnd';
-import { useSelector } from 'react-redux';
 
 import { makeGetIngredientCounter } from '@services/slices/constructor-slice';
+import { useAppSelector } from '@services/store';
 
 import { Price } from '../price';
 
-import type { RootState } from '@services/store';
 import type { TIngredient } from '@utils/types';
 
 import styles from './burger-ingredient.module.css';
@@ -29,9 +28,7 @@ export const BurgerIngredient = ({
   });
 
   const getIngredientCounter = useMemo(makeGetIngredientCounter, []);
-  const counter = useSelector((state: RootState) =>
-    getIngredientCounter(state, ingredient)
-  );
+  const counter = useAppSelector((state) => getIngredientCounter(state, ingredient));
 
   return (
     <li

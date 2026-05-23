@@ -1,6 +1,6 @@
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+import { createApi } from '@reduxjs/toolkit/query/react';
 
-import { BASE_URL } from './consts';
+import { baseQueryWithReauth } from './baseQueryWithReauth';
 
 type TOrderResponse = {
   name: string;
@@ -14,9 +14,7 @@ type TOrderRequest = string[];
 
 export const ordersApi = createApi({
   reducerPath: 'ordersApi',
-  baseQuery: fetchBaseQuery({
-    baseUrl: BASE_URL,
-  }),
+  baseQuery: baseQueryWithReauth,
   endpoints: (builder) => ({
     order: builder.mutation<TOrderResponse, TOrderRequest>({
       query: (ingredients: string[]) => ({
