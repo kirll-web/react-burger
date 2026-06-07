@@ -10,9 +10,3 @@
   padding-right: 8px;
   overflow-y: auto;
 }
-
-@media (width <= 1024px) {
-  .feeds {
-    max-height: none;
-  }
-}

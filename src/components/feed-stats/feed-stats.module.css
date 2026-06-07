@@ -27,24 +27,3 @@
 .total {
   margin: 0;
 }
-
-@media (width <= 1280px) {
-  .stats {
-    max-width: none;
-  }
-}
-
-@media (width <= 767px) {
-  .stats {
-    gap: 40px;
-  }
-
-  .columns {
-    grid-template-columns: 1fr;
-    gap: 24px;
-  }
-
-  .total {
-    font-size: 96px;
-  }
-}

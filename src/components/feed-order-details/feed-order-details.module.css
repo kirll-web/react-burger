@@ -76,17 +76,3 @@
   display: flex;
   align-items: center;
 }
-
-@media (width <= 767px) {
-  .ingredient {
-    align-items: flex-start;
-  }
-
-  .ingredientInfo {
-    align-items: flex-start;
-  }
-
-  .ingredientPrice {
-    padding-top: 20px;
-  }
-}
