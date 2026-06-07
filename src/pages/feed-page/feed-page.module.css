@@ -4,3 +4,33 @@
   margin: 0 auto;
   overflow: hidden;
 }
+
+.content {
+  display: flex;
+  align-items: flex-start;
+  gap: 60px;
+}
+
+.feeds {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 100%;
+  max-width: 608px;
+  overflow-y: auto;
+}
+
+@media (width <= 1280px) {
+  .main {
+    width: 100%;
+    padding: 0 20px 20px;
+  }
+
+  .content {
+    flex-direction: column;
+  }
+
+  .feeds {
+    max-width: none;
+  }
+}
