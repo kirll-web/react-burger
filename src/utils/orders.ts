@@ -100,6 +100,11 @@ export const feedOrdersTodayTotal = 138;
 export const getFeedOrderById = (id?: string): TFeed | undefined =>
   feedOrders.find((order) => order._id === id);
 
+export const getOrderStatusText = (status: string): string =>
+  status === 'done' ? 'Выполнен' : 'Готовится';
+
+export const isDoneOrder = (status: string): boolean => status === 'done';
+
 export const formatOrderDate = (createdAt: Date): string => {
   const date = new Date(createdAt);
   const now = new Date();

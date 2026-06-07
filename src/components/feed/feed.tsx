@@ -2,9 +2,8 @@ import { CurrencyIcon } from '@krgaa/react-developer-burger-ui-components';
 import { clsx } from 'clsx';
 import { useNavigate } from 'react-router-dom';
 
-import { RoutePath } from '@components/app/router';
 import { useGetIngredientsQuery } from '@services/ingredientsApi';
-import { formatOrderDate } from '@utils/orders';
+import { formatOrderDate, getOrderStatusText, isDoneOrder } from '@utils/orders';
 
 import type { TFeed, TIngredient } from '@utils/types';
 
@@ -12,11 +11,17 @@ import styles from './feed.module.css';
 
 export type TFeedProps = {
   feed: TFeed;
+  linkBase?: string;
+  showStatus?: boolean;
 };
 
 const MAX_VISIBLE_INGREDIENTS = 6;
 
-export const Feed = ({ feed }: TFeedProps): React.ReactElement => {
+export const Feed = ({
+  feed,
+  linkBase = '/feed',
+  showStatus = false,
+}: TFeedProps): React.ReactElement => {
   const navigate = useNavigate();
   const { data: ingredients = [] } = useGetIngredientsQuery();
 
@@ -37,7 +42,7 @@ export const Feed = ({ feed }: TFeedProps): React.ReactElement => {
     <article
       className={clsx(styles.feed, 'p-6')}
       onClick={(): void => {
-        void navigate(`${RoutePath.Feed}/${feed._id}`);
+        void navigate(`${linkBase}/${feed._id}`);
       }}
     >
       <div className={styles.header}>
@@ -51,7 +56,19 @@ export const Feed = ({ feed }: TFeedProps): React.ReactElement => {
         {feed.name}
       </h2>
 
-      <div className={clsx(styles.footer, 'mt-6')}>
+      {showStatus ? (
+        <p
+          className={clsx(
+            styles.status,
+            'text text_type_main-default mt-2',
+            isDoneOrder(feed.status) && styles.statusDone
+          )}
+        >
+          {getOrderStatusText(feed.status)}
+        </p>
+      ) : null}
+
+      <div className={clsx(styles.footer, showStatus ? 'mt-6' : 'mt-6')}>
         <ul className={styles.ingredients}>
           {visibleIngredients.map((ingredient, index) => {
             const isLastVisible = index === MAX_VISIBLE_INGREDIENTS - 1;

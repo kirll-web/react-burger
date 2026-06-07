@@ -3,6 +3,7 @@ import { createBrowserRouter } from 'react-router-dom';
 import { Layout } from '@components/layout';
 import { ModalFeedOrder } from '@components/modal-feed-order';
 import { ModalIngredients } from '@components/modal-ingredients';
+import { ModalProfileOrder } from '@components/modal-profile-order';
 import { ProtectedRoute } from '@components/protected-route';
 import { FeedPage } from '@pages/feed-page';
 import { ForgotPasswordPage } from '@pages/forgot-password-page';
@@ -76,6 +77,7 @@ export const router = createBrowserRouter([
           {
             path: 'orders',
             Component: ProfileOrderPage,
+            children: [{ path: ':id', Component: ModalProfileOrder }],
           },
         ],
       },

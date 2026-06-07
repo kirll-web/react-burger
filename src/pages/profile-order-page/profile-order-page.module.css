@@ -1,0 +1,18 @@
+.content {
+  position: relative;
+}
+
+.feeds {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  max-height: calc(100vh - 220px);
+  padding-right: 8px;
+  overflow-y: auto;
+}
+
+@media (width <= 1024px) {
+  .feeds {
+    max-height: none;
+  }
+}

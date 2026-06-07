@@ -2,7 +2,7 @@ import { CurrencyIcon } from '@krgaa/react-developer-burger-ui-components';
 import { clsx } from 'clsx';
 
 import { useGetIngredientsQuery } from '@services/ingredientsApi';
-import { formatOrderDate } from '@utils/orders';
+import { formatOrderDate, getOrderStatusText, isDoneOrder } from '@utils/orders';
 
 import type { TFeed, TIngredient } from '@utils/types';
 
@@ -15,11 +15,6 @@ type FeedOrderDetailsProps = {
 type ResolvedOrderIngredient = TIngredient & {
   count: number;
 };
-
-const DONE_STATUS = 'done';
-
-const getOrderStatusText = (status: string): string =>
-  status === DONE_STATUS ? 'Выполнен' : 'Готовится';
 
 export const FeedOrderDetails = ({
   order,
@@ -67,7 +62,7 @@ export const FeedOrderDetails = ({
         className={clsx(
           styles.status,
           'text text_type_main-default mt-3',
-          order.status === DONE_STATUS && styles.statusDone
+          isDoneOrder(order.status) && styles.statusDone
         )}
       >
         {getOrderStatusText(order.status)}

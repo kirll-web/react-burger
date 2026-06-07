@@ -14,6 +14,14 @@
   line-height: 1.2;
 }
 
+.status {
+  margin-bottom: 0;
+}
+
+.statusDone {
+  color: #0cc;
+}
+
 .footer {
   display: flex;
   justify-content: space-between;
