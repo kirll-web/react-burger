@@ -7,17 +7,17 @@ import type { TFeed } from '@utils/types';
 import styles from './feed-stats.module.css';
 
 type FeedStatsProps = {
-  orders: TFeed[];
-  todayTotal: number;
-  total: number;
+  orders?: TFeed[];
+  todayTotal?: number;
+  total?: number;
 };
 
 const DONE_STATUS = 'done';
 
 export const FeedStats = ({
-  orders,
-  todayTotal,
-  total,
+  orders = [],
+  todayTotal = 0,
+  total = 0,
 }: FeedStatsProps): React.JSX.Element => {
   const doneOrders = orders
     .filter((order) => order.status === DONE_STATUS)

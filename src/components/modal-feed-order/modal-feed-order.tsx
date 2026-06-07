@@ -2,12 +2,12 @@ import { useNavigate, useParams } from 'react-router-dom';
 
 import { FeedOrderDetails } from '@components/feed-order-details';
 import { Modal } from '@components/modal';
-import { getFeedOrderById } from '@utils/orders';
-
+import { selectAllFeedOrderById } from '@services/feedsApi';
+import { useAppSelector } from '@services/store';
 export const ModalFeedOrder = (): React.JSX.Element | null => {
   const navigate = useNavigate();
   const { id } = useParams();
-  const order = getFeedOrderById(id);
+  const order = useAppSelector(selectAllFeedOrderById(id));
 
   if (!order) {
     return null;

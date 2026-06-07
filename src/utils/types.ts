@@ -25,7 +25,7 @@ export type TFeed = {
   ingredients: string[];
   _id: string;
   name: string;
-  status: string;
+  status: 'done' | 'pending';
   number: number;
   createdAt: Date;
   updatedAt: Date;

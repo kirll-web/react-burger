@@ -52,7 +52,7 @@ export const ProfilePage = (): ReactElement => {
               Выход
             </li>
           </ul>
-          <p className={styles.note}>
+          <p className={'text_type_main-medium text_color_inactive'}>
             {isOrdersPage
               ? 'В этом разделе вы можете просмотреть свою историю заказов'
               : 'В этом разделе вы можете изменить свои персональные данные'}
