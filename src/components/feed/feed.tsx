@@ -1,7 +1,10 @@
 import { CurrencyIcon } from '@krgaa/react-developer-burger-ui-components';
 import { clsx } from 'clsx';
+import { useNavigate } from 'react-router-dom';
 
+import { RoutePath } from '@components/app/router';
 import { useGetIngredientsQuery } from '@services/ingredientsApi';
+import { formatOrderDate } from '@utils/orders';
 
 import type { TFeed, TIngredient } from '@utils/types';
 
@@ -13,27 +16,8 @@ export type TFeedProps = {
 
 const MAX_VISIBLE_INGREDIENTS = 6;
 
-const formatCreatedAt = (createdAt: Date): string => {
-  const date = new Date(createdAt);
-  const now = new Date();
-  const time = date.toLocaleTimeString('ru-RU', {
-    hour: '2-digit',
-    minute: '2-digit',
-  });
-
-  if (date.toDateString() === now.toDateString()) {
-    return `Сегодня, ${time}`;
-  }
-
-  return date.toLocaleString('ru-RU', {
-    day: 'numeric',
-    month: 'long',
-    hour: '2-digit',
-    minute: '2-digit',
-  });
-};
-
 export const Feed = ({ feed }: TFeedProps): React.ReactElement => {
+  const navigate = useNavigate();
   const { data: ingredients = [] } = useGetIngredientsQuery();
 
   const orderIngredients = feed.ingredients
@@ -50,11 +34,16 @@ export const Feed = ({ feed }: TFeedProps): React.ReactElement => {
   const hiddenIngredientsCount = orderIngredients.length - MAX_VISIBLE_INGREDIENTS;
 
   return (
-    <article className={clsx(styles.feed, 'p-6')}>
+    <article
+      className={clsx(styles.feed, 'p-6')}
+      onClick={(): void => {
+        void navigate(`${RoutePath.Feed}/${feed._id}`);
+      }}
+    >
       <div className={styles.header}>
         <p className={`text text_type_digits-default`}>#{feed.number}</p>
         <p className={`text text_type_main-default text_color_inactive`}>
-          {formatCreatedAt(feed.createdAt)}
+          {formatOrderDate(feed.createdAt)}
         </p>
       </div>
 

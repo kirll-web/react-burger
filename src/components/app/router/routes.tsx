@@ -1,6 +1,7 @@
 import { createBrowserRouter } from 'react-router-dom';
 
 import { Layout } from '@components/layout';
+import { ModalFeedOrder } from '@components/modal-feed-order';
 import { ModalIngredients } from '@components/modal-ingredients';
 import { ProtectedRoute } from '@components/protected-route';
 import { FeedPage } from '@pages/feed-page';
@@ -81,6 +82,7 @@ export const router = createBrowserRouter([
       {
         path: RoutePath.Feed,
         Component: FeedPage,
+        children: [{ path: ':id', Component: ModalFeedOrder }],
       },
       {
         path: '*',

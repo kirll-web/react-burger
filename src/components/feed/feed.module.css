@@ -1,6 +1,7 @@
 .feed {
   background: #1c1c21;
   border-radius: 40px;
+  cursor: pointer;
 }
 
 .header {
