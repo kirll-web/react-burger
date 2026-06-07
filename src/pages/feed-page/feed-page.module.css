@@ -17,6 +17,7 @@
   gap: 16px;
   width: 100%;
   max-width: 608px;
+  max-height: 800px;
   overflow-y: auto;
 }
 
