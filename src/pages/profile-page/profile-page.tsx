@@ -1,5 +1,5 @@
 import { clsx } from 'clsx';
-import { NavLink, Outlet } from 'react-router-dom';
+import { NavLink, Outlet, useLocation } from 'react-router-dom';
 
 import { useLogout } from '@hooks/use-logout';
 
@@ -9,6 +9,8 @@ import styles from './profile-page.module.css';
 
 export const ProfilePage = (): ReactElement => {
   const { handleLogout } = useLogout();
+  const location = useLocation();
+  const isOrdersPage = location.pathname.startsWith('/profile/orders');
 
   return (
     <main className={styles.main}>
@@ -50,11 +52,13 @@ export const ProfilePage = (): ReactElement => {
               Выход
             </li>
           </ul>
-          <p className={styles.note}>
-            В этом разделе вы можете изменить свои персональные данные
+          <p className={'text_type_main-medium text_color_inactive'}>
+            {isOrdersPage
+              ? 'В этом разделе вы можете просмотреть свою историю заказов'
+              : 'В этом разделе вы можете изменить свои персональные данные'}
           </p>
         </nav>
-        <section className={styles.content}>
+        <section className={clsx(styles.content, isOrdersPage && styles.contentWide)}>
           <Outlet />
         </section>
       </section>

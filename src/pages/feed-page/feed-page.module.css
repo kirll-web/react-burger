@@ -4,3 +4,19 @@
   margin: 0 auto;
   overflow: hidden;
 }
+
+.content {
+  display: flex;
+  align-items: flex-start;
+  gap: 60px;
+}
+
+.feeds {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 100%;
+  max-width: 608px;
+  max-height: 800px;
+  overflow-y: auto;
+}

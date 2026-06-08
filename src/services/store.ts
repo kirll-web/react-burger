@@ -4,6 +4,7 @@ import { useDispatch, useSelector, useStore } from 'react-redux';
 import { authApi } from '@services/authApi';
 import { ingredientsApi } from '@services/ingredientsApi';
 
+import { feedsApi } from './feedsApi';
 import { ordersApi } from './ordersApi';
 import { authSlice } from './slices/auth-slice';
 import { constructorSlice } from './slices/constructor-slice';
@@ -15,12 +16,14 @@ export const store = configureStore({
     [ingredientsApi.reducerPath]: ingredientsApi.reducer,
     [ordersApi.reducerPath]: ordersApi.reducer,
     [constructorSlice.reducerPath]: constructorSlice.reducer,
+    [feedsApi.reducerPath]: feedsApi.reducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware()
       .concat(authApi.middleware)
       .concat(ingredientsApi.middleware)
-      .concat(ordersApi.middleware),
+      .concat(ordersApi.middleware)
+      .concat(feedsApi.middleware),
 });
 
 export type RootState = ReturnType<typeof store.getState>;

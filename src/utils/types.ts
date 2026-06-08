@@ -20,3 +20,13 @@ export type TIngredient = {
   image_mobile: string;
   __v: number;
 };
+
+export type TFeed = {
+  ingredients: string[];
+  _id: string;
+  name: string;
+  status: 'done' | 'pending';
+  number: number;
+  createdAt: Date;
+  updatedAt: Date;
+};
