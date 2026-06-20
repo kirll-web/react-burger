@@ -1,4 +1,4 @@
-import { createBrowserRouter } from 'react-router-dom';
+import { createHashRouter } from 'react-router-dom';
 
 import { Layout } from '@components/layout';
 import { ModalFeedOrder } from '@components/modal-feed-order';
@@ -18,7 +18,7 @@ import { ResetPasswordPage } from '@pages/reset-password-page';
 
 import { RoutePath } from './route-paths';
 
-export const router = createBrowserRouter([
+export const router = createHashRouter([
   {
     path: RoutePath.Home,
     Component: Layout,

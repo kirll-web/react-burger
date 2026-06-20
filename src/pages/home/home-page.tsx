@@ -1,4 +1,5 @@
 import { Preloader } from '@krgaa/react-developer-burger-ui-components';
+import { clsx } from 'clsx';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 
@@ -11,6 +12,7 @@ import { useAppDispatch } from '@services/store';
 import type { TIngredient } from '@utils/types';
 
 import styles from './home.module.css';
+
 export const HomePage = (): React.JSX.Element => {
   const { isLoading } = useGetIngredientsQuery();
   const dispatch = useAppDispatch();
@@ -21,10 +23,10 @@ export const HomePage = (): React.JSX.Element => {
 
   return (
     <>
-      <h1 className={`${styles.title} text text_type_main-large mt-10 mb-5 pl-5`}>
+      <h1 className={clsx('text text_type_main-large mt-10 mb-5 pl-5', styles.title)}>
         Соберите бургер
       </h1>
-      <main className={`${styles.main} pl-5 pr-5`}>
+      <main className={clsx('pl-5 pr-5', styles.main)}>
         <DndProvider backend={HTML5Backend}>
           {isLoading ? (
             <Preloader />
