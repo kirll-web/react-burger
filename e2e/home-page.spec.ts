@@ -8,31 +8,9 @@ test.describe('home-page with HAR', () => {
     const MAIN_TEXT = 'Хрустящие минеральные кольца';
     const ORDER_NUMBER = 12345;
 
-    // Начинаем запись HAR
     await page.routeFromHAR('./e2e/hars/ingredients.har', {
-      url: '**/ingredients',
-      update: false, // Режим записи
-    });
-
-    await page.route('**/auth/user', async (route) => {
-      await route.fulfill({
-        contentType: 'application/json',
-        body: JSON.stringify({
-          success: true,
-          user: { email: 'test@test.ru', name: 'Test User' },
-        }),
-      });
-    });
-
-    await page.route('**/orders', async (route) => {
-      await route.fulfill({
-        contentType: 'application/json',
-        body: JSON.stringify({
-          success: true,
-          name: 'test burger',
-          order: { number: ORDER_NUMBER },
-        }),
-      });
+      url: '**/api/**',
+      update: false,
     });
 
     await page.addInitScript(() => {
@@ -42,40 +20,55 @@ test.describe('home-page with HAR', () => {
 
     await page.goto('/');
 
-    // Ждём загрузки данных
-    await expect(page.getByText(BUN_TEXT)).toBeVisible();
+    const bunIngredient = page.getByText(BUN_TEXT).first();
+    const mainIngredient = page.getByText(MAIN_TEXT);
+    const constructorItems = page.locator('.constructor-element');
+    const constructorContainer = page.getByTestId('constructor-container');
+    const modalRoot = page.locator('#modal');
+    const modalCloseButton = page.getByRole('button', { name: 'Закрыть' });
+    const ingredientDetailsTitle = modalRoot.getByText('Детали ингредиента');
+    const orderButton = page.getByRole('button', { name: 'Оформить заказ' });
+    const orderNumber = modalRoot.getByText(String(ORDER_NUMBER));
+    const emptyConstructorText = page.getByText(
+      'Перетащи сюда ингредиенты, чтобы собрать бургер!'
+    );
 
-    await page.getByText(BUN_TEXT).click();
-    await expect(page.getByText('Детали ингредиента')).toBeVisible();
-    await expect(page.getByRole('heading', { name: BUN_TEXT })).toBeVisible();
+    await expect(bunIngredient).toBeVisible();
 
-    await page.keyboard.press('Escape');
-    await expect(page.getByText('Детали ингредиента')).not.toBeVisible();
+    await bunIngredient.click();
+    await expect(ingredientDetailsTitle).toBeVisible();
+    await expect(modalRoot.getByRole('heading', { name: BUN_TEXT })).toBeVisible();
+    await expect(modalRoot.getByText('Калории,ккал')).toBeVisible();
+    await expect(modalRoot.getByText('420')).toBeVisible();
+    await expect(modalRoot.getByText('Белки, г')).toBeVisible();
+    await expect(modalRoot.getByText('80')).toBeVisible();
+    await expect(modalRoot.getByText('Жиры, г')).toBeVisible();
+    await expect(modalRoot.getByText('24')).toBeVisible();
+    await expect(modalRoot.getByText('Углеводы, г')).toBeVisible();
+    await expect(modalRoot.getByText('53')).toBeVisible();
 
-    const items = page.locator('.constructor-element');
-    await expect(items).toHaveCount(3);
+    await modalCloseButton.click();
+    await expect(ingredientDetailsTitle).not.toBeVisible();
 
-    const bun = page.getByText(BUN_TEXT);
-    const main = page.getByText(MAIN_TEXT);
-    const container = page.getByTestId('constructor-container');
+    await expect(constructorItems).toHaveCount(3);
 
-    await bun.dragTo(container);
+    await bunIngredient.dragTo(constructorContainer);
 
-    await expect(items.nth(0)).toContainText(BUN_TEXT);
-    await expect(items.nth(1)).not.toContainText(BUN_TEXT);
-    await expect(items.nth(2)).toContainText(BUN_TEXT);
+    await expect(constructorItems.nth(0)).toContainText(BUN_TEXT);
+    await expect(constructorItems.nth(1)).not.toContainText(BUN_TEXT);
+    await expect(constructorItems.nth(2)).toContainText(BUN_TEXT);
 
-    await main.dragTo(container);
+    await mainIngredient.dragTo(constructorContainer);
 
-    await expect(items.nth(0)).toContainText(BUN_TEXT);
-    await expect(items.nth(1)).toContainText(MAIN_TEXT);
-    await expect(items.nth(2)).toContainText(BUN_TEXT);
+    await expect(constructorItems.nth(0)).toContainText(BUN_TEXT);
+    await expect(constructorItems.nth(1)).toContainText(MAIN_TEXT);
+    await expect(constructorItems.nth(2)).toContainText(BUN_TEXT);
 
     const orderRequest = page.waitForRequest('**/orders');
-    await page.getByRole('button', { name: 'Оформить заказ' }).click();
+    await orderButton.click();
 
-    await expect(page.getByText(String(ORDER_NUMBER))).toBeVisible();
-    await expect(page.getByText('идентификатор заказа')).toBeVisible();
+    await expect(orderNumber).toBeVisible();
+    await expect(modalRoot.getByText('идентификатор заказа')).toBeVisible();
     expect((await orderRequest).postDataJSON()).toEqual({
       ingredients: [
         '692889f16bf770001bfeb4cc',
@@ -84,10 +77,8 @@ test.describe('home-page with HAR', () => {
       ],
     });
 
-    await page.getByRole('button', { name: 'Закрыть' }).click();
-    await expect(page.getByText(String(ORDER_NUMBER))).not.toBeVisible();
-    await expect(
-      page.getByText('Перетащи сюда ингредиенты, чтобы собрать бургер!')
-    ).toBeVisible();
+    await modalCloseButton.click();
+    await expect(orderNumber).not.toBeVisible();
+    await expect(emptyConstructorText).toBeVisible();
   });
 });
