@@ -98,6 +98,7 @@ export const BurgerConstructor = ({
   return (
     <section className={clsx(styles.burger_constructor, 'pl-4 pr-4 pt-1')}>
       <div
+        data-testid="constructor-container"
         className={styles.ingredients}
         ref={(element) => {
           void dropTarget(element);

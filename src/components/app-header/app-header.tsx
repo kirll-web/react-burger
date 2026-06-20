@@ -4,6 +4,7 @@ import {
   Logo,
   ProfileIcon,
 } from '@krgaa/react-developer-burger-ui-components';
+import { clsx } from 'clsx';
 import { NavLink } from 'react-router-dom';
 
 import { RoutePath } from '@components/app/router';
@@ -22,7 +23,10 @@ const AppHeaderLink = ({ icon, text, isActive }: AppHeaderLinkProps) => (
   <>
     {icon}
     <p
-      className={`text text_type_main-default ml-2 ${isActive ? styles.link_active : ''}`}
+      className={clsx(
+        'text text_type_main-default ml-2',
+        isActive ? styles.link_active : ''
+      )}
     >
       {text}
     </p>
@@ -32,7 +36,7 @@ const AppHeaderLink = ({ icon, text, isActive }: AppHeaderLinkProps) => (
 export const AppHeader = (): React.JSX.Element => {
   return (
     <header className={styles.header}>
-      <nav className={`${styles.menu} p-4`}>
+      <nav className={clsx('p-4', styles.menu)}>
         <div className={styles.menu_part_left}>
           <NavLink to={RoutePath.Home} className={styles.link}>
             {({ isActive }) => (
@@ -43,7 +47,7 @@ export const AppHeader = (): React.JSX.Element => {
               />
             )}
           </NavLink>
-          <NavLink to={RoutePath.Feed} className={`${styles.link} ml-10`}>
+          <NavLink to={RoutePath.Feed} className={clsx('ml-10', styles.link)}>
             {({ isActive }) => (
               <AppHeaderLink
                 icon={<ListIcon type={isActive ? 'primary' : 'secondary'} />}
@@ -60,7 +64,7 @@ export const AppHeader = (): React.JSX.Element => {
         </NavLink>
         <NavLink
           to={RoutePath.Profile}
-          className={`${styles.link} ${styles.link_position_last}`}
+          className={clsx(styles.link_position_last, styles.link)}
         >
           {({ isActive }) => (
             <AppHeaderLink
